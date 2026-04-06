@@ -7,11 +7,3 @@ updates:
       interval: "weekly"
     labels:
       - "Nexus-Security"
-
-  # Monitor npm packages (Terser/Clean-CSS etc.)
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    labels:
-      - "D.D.T.O.-Optimization"
