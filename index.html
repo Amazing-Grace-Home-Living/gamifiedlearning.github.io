@@ -1,10 +1,301 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Gamified Learning</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Developer Nexus — a gamified learning platform for the Global Architect Network. Complete modules, earn certifications, and unlock the Architect Sandbox.">
+    <title>Developer Nexus | Global Architect Hub</title>
+
+    <!-- Preconnect for performance: establish connections before CSS requests them -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@400;700&display=swap">
+
+    <!-- Tailwind CDN (development build) — defer so it does not block HTML parsing -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
+
+    <style>
+        :root {
+            --matrix-green: #00ff41;
+            --nexus-blue: #00aaff;
+            --bg-black: #020502;
+            --card-bg: rgba(0, 15, 0, 0.95);
+            --locked-gray: #2a2a2a;
+            --error-red: #ff3300;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--matrix-green);
+            font-family: 'VT323', monospace;
+            letter-spacing: 0.5px;
+            scroll-behavior: smooth;
+        }
+
+        /* CRT Scanline overlay */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background:
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .nexus-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nexus-card:hover:not(.locked) {
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .locked {
+            filter: grayscale(1) brightness(0.5);
+            cursor: not-allowed;
+            border-color: var(--locked-gray) !important;
+        }
+
+        .btn-nexus {
+            border: 1px solid var(--matrix-green);
+            padding: 0.5rem 1.5rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-nexus:hover:not(:disabled) {
+            background: var(--matrix-green);
+            color: black;
+            box-shadow: 0 0 15px var(--matrix-green);
+        }
+
+        /* In-page toast notification (replaces blocking alert()) */
+        #nexus-toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(4rem);
+            background: var(--card-bg);
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            padding: 0.75rem 2rem;
+            font-family: 'VT323', monospace;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        #nexus-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Easter Egg Styling */
+        #ozone-guardian-tier {
+            display: none;
+            border: 2px solid white;
+            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%   { box-shadow: 0 0 5px #fff; }
+            50%  { box-shadow: 0 0 25px #fff; }
+            100% { box-shadow: 0 0 5px #fff; }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .text-6xl { font-size: 2.5rem; }
+            .p-10 { padding: 1.5rem; }
+        }
+    </style>
 </head>
-<body>
-    <h1>Welcome to Gamified Learning</h1>
-    <p>This is an example webpage.</p>
+<body class="p-4 md:p-10">
+
+    <!-- In-page toast for non-blocking user feedback -->
+    <div id="nexus-toast" role="status" aria-live="polite"></div>
+
+    <noscript>
+        <p style="color:#ff3300;font-family:monospace;text-align:center;padding:2rem;">
+            [ERROR] JavaScript is required for the Developer Nexus platform. Please enable it to continue.
+        </p>
+    </noscript>
+
+    <div class="max-w-6xl mx-auto">
+
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-green-900 pb-8 mb-10">
+            <div>
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tighter uppercase">Developer Nexus</h1>
+                <p class="text-blue-400 text-xl font-sans mt-2">
+                    GLOBAL ARCHITECT NETWORK //
+                    <output id="node-location" aria-label="Node location">LOCATING NODE...</output>
+                </p>
+            </div>
+            <nav class="mt-4 md:mt-0 text-left md:text-right font-mono text-sm opacity-70 space-y-1">
+                <p>STATUS: <span class="text-white">ENCRYPTED</span></p>
+                <p>SYSTEM TIME: <time id="utc-clock" aria-label="UTC clock">--:--:--</time></p>
+                <p><a href="Admin.html" class="text-blue-400 hover:underline uppercase text-xs">Admin Console &rarr;</a></p>
+            </nav>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+            <aside class="lg:col-span-1 space-y-6" aria-label="Status panel">
+                <div class="nexus-card p-5">
+                    <h2 class="text-lg border-b border-green-900 mb-4 pb-1">MASTER LEDGER</h2>
+                    <ul class="space-y-3 text-sm font-sans uppercase">
+                        <li class="flex justify-between">
+                            <span>7 Stars Cert:</span>
+                            <span id="cert-stars" class="text-red-500" aria-live="polite">OFFLINE</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Integrity:</span>
+                            <span id="cert-integrity" class="text-red-500" aria-live="polite">OFFLINE</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Scholarship:</span>
+                            <span id="scholarship-status" class="text-white" aria-live="polite">PENDING</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="donation-gate" class="nexus-card p-5 border-blue-500 hidden" aria-label="Mission partner contribution">
+                    <h2 class="text-blue-400 mb-2">MISSION PARTNER</h2>
+                    <p class="text-xs text-gray-400 mb-4">FUNDING THE 2027 GLOBAL SENSOR NETWORK.</p>
+                    <button id="btn-donate" class="w-full bg-blue-900 py-2 hover:bg-blue-600 transition text-white">
+                        CONTRIBUTE $300
+                    </button>
+                </div>
+            </aside>
+
+            <div class="lg:col-span-3 space-y-8">
+
+                <section id="module-foundation" class="nexus-card p-8" aria-labelledby="mod1-title">
+                    <h2 id="mod1-title" class="text-3xl mb-4">MODULE_01: SEVEN STARS FOUNDATION</h2>
+                    <p class="font-sans text-gray-400 mb-6">
+                        Complete the article and ethical examination to prove your foundation.
+                        Audio narration available for accessibility.
+                    </p>
+                    <div id="quiz-anchor">
+                        <button id="btn-module1" class="btn-nexus">Initialize Foundation</button>
+                    </div>
+                </section>
+
+                <section id="module-sandbox" class="nexus-card p-8 locked"
+                         aria-labelledby="mod2-title"
+                         aria-disabled="true">
+                    <h2 id="mod2-title" class="text-3xl mb-2 text-blue-400">MODULE_02: ARCHITECT SANDBOX</h2>
+                    <p id="mod2-status" class="text-sm uppercase mb-6 text-gray-500">Requires Module_01 Validation</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 border border-gray-800">ANNUAL MINI-GAME BOUNTY</div>
+                        <div class="p-4 border border-gray-800">CODE SECURITY SIMULATION</div>
+                    </div>
+                </section>
+
+                <section id="ozone-guardian-tier" class="p-8 rounded-lg shadow-2xl" aria-labelledby="guardian-title">
+                    <h2 id="guardian-title" class="text-4xl font-bold mb-2">SYSTEM OVERRIDE: OZONE GUARDIAN</h2>
+                    <p class="font-sans">Access Granted to Precision Telemetry and 3-House Movement Masking.</p>
+                    <div class="h-48 bg-black mt-6 flex items-center justify-center border border-white opacity-50"
+                         role="img" aria-label="Map data placeholder">
+                        [ MAP DATA STREAMING... ]
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // ARCHITECT CONFIG
+        const CONFIG = {
+            meritLocked: ['PH', 'KH', 'LA', 'CN', 'NG', 'KE', 'ZA'],
+            userRegion: 'US', // Replace with <?= userRegion ?> when deploying via Apps Script
+            isGuardian: false
+        };
+
+        // DOM ELEMENTS
+        const donationGate = document.getElementById('donation-gate');
+        const sandboxCard  = document.getElementById('module-sandbox');
+        const guardianCard = document.getElementById('ozone-guardian-tier');
+
+        /** Show a non-blocking in-page notification instead of alert() */
+        function showToast(msg, durationMs = 3500) {
+            const toast = document.getElementById('nexus-toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), durationMs);
+        }
+
+        /** Core Initialization — sets geofence and localises node */
+        function init(regionCode) {
+            CONFIG.userRegion = regionCode;
+            document.getElementById('node-location').textContent = 'NODE_' + regionCode;
+
+            // GEOPROTECTION: only show donation gate for non-merit regions
+            if (!CONFIG.meritLocked.includes(regionCode)) {
+                donationGate.classList.remove('hidden');
+            }
+
+            updateClock();
+        }
+
+        function updateClock() {
+            document.getElementById('utc-clock').textContent =
+                new Date().toUTCString().split(' ')[4];
+            setTimeout(updateClock, 1000);
+        }
+
+        /** Module Controller */
+        function runModule(id) {
+            if (id === 1) {
+                showToast('[ LOADING: Seven Stars Lesson & Audio... ]');
+                // In production this calls google.script.run to fetch quiz content
+                completeModuleOne();
+            }
+        }
+
+        function completeModuleOne() {
+            const certStars = document.getElementById('cert-stars');
+            certStars.textContent = 'VERIFIED';
+            certStars.classList.replace('text-red-500', 'text-green-500');
+
+            sandboxCard.classList.remove('locked');
+            sandboxCard.removeAttribute('aria-disabled');
+            document.getElementById('mod2-status').textContent = 'ACCESS GRANTED';
+        }
+
+        /** Easter Egg Handler */
+        function handleDonation(amount) {
+            if (amount >= 300) {
+                CONFIG.isGuardian = true;
+                guardianCard.style.display = 'block';
+                document.body.style.backgroundColor = '#000800';
+                showToast('[ WELCOME TO THE 2027 GUARDIAN NETWORK ]', 5000);
+            }
+        }
+
+        // Bind buttons via addEventListener (no inline onclick)
+        document.getElementById('btn-module1').addEventListener('click', () => runModule(1));
+        document.getElementById('btn-donate').addEventListener('click', () => handleDonation(300));
+
+        // Bootstrap — replace 'US' with server-side region when using Apps Script
+        init('US');
+    </script>
 </body>
 </html>

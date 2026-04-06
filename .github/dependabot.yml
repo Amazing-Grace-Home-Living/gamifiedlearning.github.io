@@ -1,0 +1,17 @@
+version: 2
+updates:
+  # Monitor GitHub Actions for dependency updates
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "Nexus-Security"
+
+  # Monitor npm packages (Terser/Clean-CSS etc.)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "D.D.T.O.-Optimization"
