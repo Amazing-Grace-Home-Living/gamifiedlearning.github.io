@@ -1,10 +1,240 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Gamified Learning</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamified Learning - Match Maker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-top: 0.25rem;
+        }
+
+        .match-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.4rem;
+            padding: 0.8rem;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .match-cell {
+            aspect-ratio: 1 / 1;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            background: #111;
+            box-shadow: 0 0 6px rgba(0,0,0,0.6);
+            transition: transform 0.1s, box-shadow 0.1s;
+            user-select: none;
+        }
+
+        .match-cell:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(102, 126, 234, 0.5);
+        }
+
+        .match-cell:active {
+            transform: scale(0.95);
+        }
+
+        .matrix-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .matrix-heading {
+            font-size: 1.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .matrix-border {
+            border: 2px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .matrix-economy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .economy-item {
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .economy-label {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .economy-value {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .match-grid {
+                max-width: 100%;
+            }
+
+            .match-cell {
+                font-size: 1.2rem;
+            }
+
+            .stat-value {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .match-cell {
+                font-size: 1rem;
+            }
+
+            .game-stats {
+                padding: 0.75rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Gamified Learning</h1>
-    <p>This is an example webpage.</p>
+    <div class="container">
+        <h1>🎮 Match Maker Game</h1>
+
+        <div class="game-stats">
+            <div class="stat">
+                <div class="stat-label">Score</div>
+                <div class="stat-value" id="match-score">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Moves</div>
+                <div class="stat-value" id="match-moves">20</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Level</div>
+                <div class="stat-value" id="match-level">1</div>
+            </div>
+        </div>
+
+        <div id="match-grid" class="match-grid">
+            <!-- Grid cells will be generated here -->
+        </div>
+
+        <section class="matrix-card matrix-border" id="matrix-economy-screen">
+            <h2 class="matrix-heading">Matrix of Conscience</h2>
+            <div class="matrix-economy-grid">
+                <div class="economy-item">
+                    <div class="economy-label">Integrity</div>
+                    <div class="economy-value">100%</div>
+                </div>
+                <div class="economy-item">
+                    <div class="economy-label">Wisdom</div>
+                    <div class="economy-value">85%</div>
+                </div>
+                <div class="economy-item">
+                    <div class="economy-label">Compassion</div>
+                    <div class="economy-value">92%</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script type="module">
+        import { initMatchMaker } from './match-maker-ui.js';
+        import { initBadges } from './badges.js';
+
+        // Simple in-memory database
+        const gameDB = {
+            badges: {}
+        };
+
+        // Initialize badge system
+        initBadges(gameDB.badges, 'player1');
+
+        // Initialize Match Maker game
+        initMatchMaker(gameDB.badges, 'player1');
+
+        // Make startMiniGame available globally for compatibility
+        window.startMiniGame = function() {
+            initMatchMaker(gameDB.badges, 'player1');
+        };
+    </script>
 </body>
 </html>
