@@ -75,7 +75,7 @@
     background: #0d0d1a; border: 1px solid #1a1a2e;
     border-radius: 10px; padding: 1.1rem 1.2rem;
   }
-  .lp-feature__icon { font-size: 1.5rem; margin-bottom: .5rem; }
+  .lp-feature__icon { font-size: 1.5rem; margin-bottom: .5rem; line-height: 1; }
   .lp-feature__title {
     font-size: .85rem; font-weight: 700; letter-spacing: .07em;
     text-transform: uppercase; color: #00ff41; margin-bottom: .35rem;
@@ -120,7 +120,7 @@
 <section class="lp-features" aria-label="Why Gamified Learning">
 
   <div class="lp-feature">
-    <div class="lp-feature__icon">🧠</div>
+    <div class="lp-feature__icon" aria-hidden="true">&#9726;</div>
     <h2 class="lp-feature__title">Pattern Recognition</h2>
     <p class="lp-feature__desc">
       Spotting matches trains the same visual-processing pathways used in reading
@@ -129,7 +129,7 @@
   </div>
 
   <div class="lp-feature">
-    <div class="lp-feature__icon">⚡</div>
+    <div class="lp-feature__icon" aria-hidden="true">&#9654;</div>
     <h2 class="lp-feature__title">Instant Feedback</h2>
     <p class="lp-feature__desc">
       Every swap triggers immediate visual feedback — no waiting, no loading screens,
@@ -138,7 +138,7 @@
   </div>
 
   <div class="lp-feature">
-    <div class="lp-feature__icon">🏆</div>
+    <div class="lp-feature__icon" aria-hidden="true">&#9651;</div>
     <h2 class="lp-feature__title">Progressive Badges</h2>
     <p class="lp-feature__desc">
       Five achievement tiers from Seedling to Champion keep learners motivated to
@@ -147,7 +147,7 @@
   </div>
 
   <div class="lp-feature">
-    <div class="lp-feature__icon">📱</div>
+    <div class="lp-feature__icon" aria-hidden="true">&#9633;</div>
     <h2 class="lp-feature__title">Works Everywhere</h2>
     <p class="lp-feature__desc">
       Fully responsive and touch-friendly. No downloads, no installs — just open
