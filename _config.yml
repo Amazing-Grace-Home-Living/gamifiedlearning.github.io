@@ -1,0 +1,11 @@
+title: Gamified Learning
+description: A gamified learning platform featuring Match Maker and Matrix of Conscience.
+
+# Exclude files that should not be published
+exclude:
+  - README.md
+  - agent.yaml
+  - Index.html
+
+# GitHub Pages settings
+theme: null

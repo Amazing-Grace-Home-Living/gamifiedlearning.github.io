@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # Monitor GitHub Actions for security updates
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # Monitor NPM packages
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
