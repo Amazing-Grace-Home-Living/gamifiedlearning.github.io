@@ -3,11 +3,11 @@
  */
 
 const LEVEL_BADGES = {
-  1: { icon: '🌱', label: 'Seedling' },
-  2: { icon: '⚡', label: 'Charged' },
-  3: { icon: '🔥', label: 'On Fire' },
-  4: { icon: '💎', label: 'Diamond' },
-  5: { icon: '👑', label: 'Champion' },
+  1: { icon: '[S]', label: 'Seedling' },
+  2: { icon: '[Z]', label: 'Charged' },
+  3: { icon: '[F]', label: 'On Fire' },
+  4: { icon: '[D]', label: 'Diamond' },
+  5: { icon: '[C]', label: 'Champion' },
 };
 
 /**
@@ -20,7 +20,7 @@ const LEVEL_BADGES = {
  * @param {object} [user] - Optional user object
  */
 export function onLevelComplete(level, score, db, user) {
-  const badge = LEVEL_BADGES[level] || { icon: '🏅', label: `Level ${level}` };
+  const badge = LEVEL_BADGES[level] || { icon: '[M]', label: `Level ${level}` };
 
   // Show in-game notification
   const banner = document.getElementById('match-badge-banner');

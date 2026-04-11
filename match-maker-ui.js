@@ -55,12 +55,12 @@ function renderGrid() {
 
 function gemIcon(type) {
   switch (type) {
-    case 'heart': return '💖';
-    case 'star':  return '⭐';
-    case 'cross': return '✝️';
-    case 'flame': return '🔥';
-    case 'drop':  return '💧';
-    default:      return '⬛';
+    case 'heart': return 'H';
+    case 'star':  return '*';
+    case 'cross': return '+';
+    case 'flame': return 'F';
+    case 'drop':  return '~';
+    default:      return '?';
   }
 }
 

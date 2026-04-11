@@ -207,28 +207,28 @@
 
     <div class="matrix-economy-grid">
       <div class="matrix-cell">
-        <span class="icon">💖</span>
+        <span class="icon">[E]</span>
         <span class="label">Empathy</span>
         <span class="value" id="mc-empathy">72</span>
         <div class="bar-track"><div class="bar-fill" id="mc-empathy-bar" style="width:72%"></div></div>
       </div>
 
       <div class="matrix-cell">
-        <span class="icon">⚖️</span>
+        <span class="icon">[J]</span>
         <span class="label">Justice</span>
         <span class="value" id="mc-justice">58</span>
         <div class="bar-track"><div class="bar-fill" id="mc-justice-bar" style="width:58%"></div></div>
       </div>
 
       <div class="matrix-cell">
-        <span class="icon">🧠</span>
+        <span class="icon">[W]</span>
         <span class="label">Wisdom</span>
         <span class="value" id="mc-wisdom">45</span>
         <div class="bar-track"><div class="bar-fill" id="mc-wisdom-bar" style="width:45%"></div></div>
       </div>
 
       <div class="matrix-cell">
-        <span class="icon">🌱</span>
+        <span class="icon">[G]</span>
         <span class="label">Growth</span>
         <span class="value" id="mc-growth">83</span>
         <div class="bar-track"><div class="bar-fill" id="mc-growth-bar" style="width:83%"></div></div>
@@ -343,15 +343,15 @@
 
     // ── badges.js (inlined) ──────────────────────────────────────────────────
     const LEVEL_BADGES = {
-      1: { icon: '🌱', label: 'Seedling' },
-      2: { icon: '⚡', label: 'Charged' },
-      3: { icon: '🔥', label: 'On Fire' },
-      4: { icon: '💎', label: 'Diamond' },
-      5: { icon: '👑', label: 'Champion' },
+      1: { icon: '[S]', label: 'Seedling' },
+      2: { icon: '[Z]', label: 'Charged' },
+      3: { icon: '[F]', label: 'On Fire' },
+      4: { icon: '[D]', label: 'Diamond' },
+      5: { icon: '[C]', label: 'Champion' },
     };
 
     function onLevelComplete(level, score, db, user) {
-      const badge = LEVEL_BADGES[level] || { icon: '🏅', label: `Level ${level}` };
+      const badge = LEVEL_BADGES[level] || { icon: '[M]', label: `Level ${level}` };
 
       const banner = document.getElementById('match-badge-banner');
       if (banner) {
@@ -412,12 +412,12 @@
 
     function gemIcon(type) {
       switch (type) {
-        case 'heart': return '💖';
-        case 'star':  return '⭐';
-        case 'cross': return '✝️';
-        case 'flame': return '🔥';
-        case 'drop':  return '💧';
-        default:      return '⬛';
+        case 'heart': return 'H';
+        case 'star':  return '*';
+        case 'cross': return '+';
+        case 'flame': return 'F';
+        case 'drop':  return '~';
+        default:      return '?';
       }
     }
 
