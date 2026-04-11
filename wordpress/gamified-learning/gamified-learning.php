@@ -47,7 +47,7 @@ final class Gamified_Learning {
 	 *                           shortcode has no attributes, so we cast to array.
 	 */
 	public static function shortcode( $atts ): string {
-		$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+		$atts = (array) $atts; // cast in case WP passes an empty string
 		self::$count++;
 		$pfx = 'gl-' . self::$count;
 		$css = self::$css_done ? '' : self::render_css();
