@@ -39,8 +39,8 @@ export function logout() {
 
 /**
  * Guard the current page by required roles.
- * Redirects to /admin/login.html if unauthenticated,
- * or /admin/forbidden.html if the user lacks the required role.
+ * Redirects to /admin/login.html if unauthenticated or if the user
+ * lacks the required role.
  *
  * @param {string[]} allowedRoles - Array of roles that may access this page.
  * @returns {{ uid: string, email: string, role: string }} The authenticated user.
@@ -52,7 +52,7 @@ export function requireRole(allowedRoles) {
     return null;
   }
   if (!allowedRoles.includes(user.role)) {
-    window.location.href = '/admin/forbidden.html';
+    window.location.href = '/admin/login.html?reason=insufficient_role';
     return null;
   }
   return user;

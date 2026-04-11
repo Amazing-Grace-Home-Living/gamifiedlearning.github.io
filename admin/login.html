@@ -45,6 +45,15 @@
   // Already logged in → go to dashboard
   if (getCurrentUser()) window.location.href = '/admin/index.html';
 
+  // Show a message if redirected due to insufficient role
+  const reason = new URLSearchParams(window.location.search).get('reason');
+  if (reason === 'insufficient_role') {
+    const status = document.getElementById('login-status');
+    status.textContent  = '🔒 Access denied: your account does not have the required role for that page.';
+    status.className    = 'matrix-alert error';
+    status.style.display = 'block';
+  }
+
   const form   = document.getElementById('login-form');
   const status = document.getElementById('login-status');
 
