@@ -147,10 +147,10 @@ CSS;
   var GEM_TYPES     = ['heart', 'star', 'cross', 'flame', 'drop'];
   var SCORE_PER_LVL = 500;
   var BADGES = {
-    1: '🌱 Seedling', 2: '⚡ Charged', 3: '🔥 On Fire',
-    4: '💎 Diamond',  5: '👑 Champion'
+    1: 'Seedling', 2: 'Charged', 3: 'On Fire',
+    4: 'Diamond',  5: 'Champion'
   };
-  var ICONS = { heart: '💖', star: '⭐', cross: '✝️', flame: '🔥', drop: '💧' };
+  var ICONS = { heart: '\u2665', star: '\u2605', cross: '\u271A', flame: '\u25B2', drop: '\u25BC' };
 
   /* ── game state ─────────────────────────────────────────────────────── */
   var grid, selected, score, moves, level;
@@ -228,7 +228,7 @@ CSS;
   }
 
   /* ── rendering ──────────────────────────────────────────────────────── */
-  function gemIcon(t) { return ICONS[t] || '⬛'; }
+  function gemIcon(t) { return ICONS[t] || '\u25A0'; }
 
   function renderGrid() {
     var el = gid('grid');
@@ -290,7 +290,7 @@ CSS;
 
   function checkLevelUp() {
     if (score >= level * SCORE_PER_LVL) {
-      var label = BADGES[level] || ('🏅 Level ' + level);
+      var label = BADGES[level] || ('Level ' + level);
       showBanner(label + ' badge unlocked! Score: ' + score, 3000);
       level++;
       moves += 10;

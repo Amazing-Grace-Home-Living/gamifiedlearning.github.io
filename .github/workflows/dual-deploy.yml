@@ -25,6 +25,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+          cname: gamifiedlearning.org
 
       - name: Sync to WordPress (Gamified Learning)
         env:
@@ -37,3 +38,15 @@ jobs:
             -H "Authorization: Bearer ${WP_API_KEY}" \
             -d "{\"content\": ${CONTENT}}" \
             https://www.gamifiedlearning.org/wp-json/nexus-sync/v1/update
+
+      - name: Sync to WordPress (Amazing Grace Home Living)
+        env:
+          AG_API_KEY: ${{ secrets.AG_API_KEY }}
+        run: |
+          test -f dist/embed.html
+          CONTENT=$(jq -Rs . < dist/embed.html)
+          curl -sSf \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${AG_API_KEY}" \
+            -d "{\"content\": ${CONTENT}}" \
+            https://www.amazinggracehomeliving.com/wp-json/nexus-sync/v1/update
