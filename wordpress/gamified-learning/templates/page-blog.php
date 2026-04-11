@@ -38,7 +38,7 @@ $query = new WP_Query(
         <article class="gl-post-card" id="post-<?php the_ID(); ?>">
 
           <?php if ( has_post_thumbnail() ) : ?>
-          <a class="gl-post-card__thumb" href="<?php the_permalink(); ?>">
+          <a class="gl-post-card__thumb" href="<?php echo esc_url( get_permalink() ); ?>">
             <?php the_post_thumbnail( 'medium', [ 'loading' => 'lazy' ] ); ?>
           </a>
           <?php endif; ?>
@@ -49,14 +49,14 @@ $query = new WP_Query(
             </span>
 
             <h2 class="gl-post-card__title">
-              <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+              <a href="<?php echo esc_url( get_permalink() ); ?>"><?php the_title(); ?></a>
             </h2>
 
             <p class="gl-post-card__excerpt">
               <?php echo esc_html( wp_trim_words( get_the_excerpt(), 22, '…' ) ); ?>
             </p>
 
-            <a class="gl-post-card__more" href="<?php the_permalink(); ?>">
+            <a class="gl-post-card__more" href="<?php echo esc_url( get_permalink() ); ?>">
               Read more &#8594;
             </a>
           </div>

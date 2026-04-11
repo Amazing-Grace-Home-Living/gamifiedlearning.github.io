@@ -13,6 +13,8 @@
  * License:      GPL-2.0+
  * License URI:  https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:  gamified-learning
+ * Requires PHP: 7.4
+ * Requires at least: 5.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -40,8 +42,12 @@ final class Gamified_Learning {
 	/**
 	 * Usage: [gamified_learning]
 	 * Safe to place on a page more than once — each instance is fully isolated.
+	 *
+	 * @param array|string $atts WordPress may pass an empty string when the
+	 *                           shortcode has no attributes, so we cast to array.
 	 */
-	public static function shortcode( array $atts ): string {
+	public static function shortcode( $atts ): string {
+		$atts = array_change_key_case( (array) $atts, CASE_LOWER );
 		self::$count++;
 		$pfx = 'gl-' . self::$count;
 		$css = self::$css_done ? '' : self::render_css();
@@ -148,6 +154,7 @@ CSS;
 
   /* ── game state ─────────────────────────────────────────────────────── */
   var grid, selected, score, moves, level;
+  var bannerTimeout = null;
 
   /* ── grid logic ─────────────────────────────────────────────────────── */
   function randomGem() {
@@ -297,7 +304,13 @@ CSS;
     var b = gid('banner');
     b.textContent = msg;
     b.classList.remove('gl-hidden');
-    if (hideAfter) { setTimeout(function () { b.classList.add('gl-hidden'); }, hideAfter); }
+    if (bannerTimeout) { clearTimeout(bannerTimeout); bannerTimeout = null; }
+    if (hideAfter) {
+      bannerTimeout = setTimeout(function () {
+        b.classList.add('gl-hidden');
+        bannerTimeout = null;
+      }, hideAfter);
+    }
   }
 
   /* ── init ───────────────────────────────────────────────────────────── */
@@ -313,6 +326,7 @@ CSS;
   initMatchMaker();
 
   gid('restart').addEventListener('click', function () {
+    if (bannerTimeout) { clearTimeout(bannerTimeout); bannerTimeout = null; }
     gid('banner').classList.add('gl-hidden');
     initMatchMaker();
   });
