@@ -355,12 +355,7 @@
     function onLevelComplete(level, score, db, user) {
       const badge = LEVEL_BADGES[level] || { icon: '🏅', label: `Level ${level}` };
 
-      const banner = document.getElementById('match-badge-banner');
-      if (banner) {
-        banner.textContent = `${badge.icon} ${badge.label} badge unlocked! Score: ${score}`;
-        banner.classList.remove('hidden');
-        setTimeout(() => banner.classList.add('hidden'), 3000);
-      }
+      showBanner(`${badge.icon} ${badge.label} badge unlocked! Score: ${score}`, 3000);
 
       if (db && user) {
         try {
@@ -380,6 +375,21 @@
     let score = 0;
     let moves = 20;
     let level = 1;
+    let bannerTimeout = null;
+
+    function showBanner(msg, hideAfter) {
+      const banner = document.getElementById('match-badge-banner');
+      if (!banner) return;
+      banner.textContent = msg;
+      banner.classList.remove('hidden');
+      if (bannerTimeout) { clearTimeout(bannerTimeout); bannerTimeout = null; }
+      if (hideAfter) {
+        bannerTimeout = setTimeout(() => {
+          banner.classList.add('hidden');
+          bannerTimeout = null;
+        }, hideAfter);
+      }
+    }
 
     function initMatchMaker() {
       score = 0;
@@ -471,12 +481,17 @@
 
     function resolveMatches() {
       let matches = findMatches(grid);
-      while (matches.length > 0) {
+      let safety = 0;
+      while (matches.length > 0 && safety < 100) {
         matches.forEach(m => { score += m.length * 10; });
         document.getElementById('match-score').textContent = score;
         grid = clearMatches(grid, matches);
         grid = applyGravity(grid);
         matches = findMatches(grid);
+        safety++;
+      }
+      if (safety >= 100) {
+        console.warn('Match resolution safety cap reached to prevent infinite loop.');
       }
       renderGrid();
       checkLevelUp();
@@ -496,11 +511,7 @@
 
     function checkGameOver() {
       if (moves <= 0) {
-        const banner = document.getElementById('match-badge-banner');
-        if (banner) {
-          banner.textContent = `Game Over! Final score: ${score}`;
-          banner.classList.remove('hidden');
-        }
+        showBanner(`Game Over! Final score: ${score}`, 0);
       }
     }
 
@@ -508,6 +519,7 @@
     initMatchMaker();
 
     document.getElementById('match-restart-btn').addEventListener('click', () => {
+      if (bannerTimeout) { clearTimeout(bannerTimeout); bannerTimeout = null; }
       document.getElementById('match-badge-banner').classList.add('hidden');
       initMatchMaker();
     });
