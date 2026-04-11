@@ -10,7 +10,8 @@
 
 get_header();
 
-$paged = max( 1, (int) get_query_var( 'paged' ) );
+// Static page templates may use the 'page' query var instead of 'paged'.
+$paged = max( 1, (int) get_query_var( 'paged' ), (int) get_query_var( 'page' ) );
 $query = new WP_Query(
 	[
 		'post_type'      => 'post',
