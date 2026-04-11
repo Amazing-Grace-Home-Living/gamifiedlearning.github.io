@@ -280,6 +280,9 @@ CSS;
       ms = findMatches(grid);
       safety++;
     }
+    if (safety >= 100) {
+      console.warn('Gamified Learning: resolveMatches() safety cap reached — board may contain unresolved matches.');
+    }
     renderGrid();
     checkLevelUp();
     checkGameOver();
@@ -347,8 +350,9 @@ NOWDOC;
 	 * @return array<string,string>
 	 */
 	public static function register_templates( array $templates ): array {
-		$templates['gl-page-index'] = __( 'Gamified Learning – Index', 'gamified-learning' );
-		$templates['gl-page-blog']  = __( 'Gamified Learning – Blog',  'gamified-learning' );
+		$templates['gl-page-index']     = __( 'Gamified Learning – Index',          'gamified-learning' );
+		$templates['gl-page-blog']      = __( 'Gamified Learning – Blog',           'gamified-learning' );
+		$templates['gl-page-lightning'] = __( 'Gamified Learning – Lightning Page', 'gamified-learning' );
 		return $templates;
 	}
 
@@ -362,8 +366,9 @@ NOWDOC;
 		}
 		$meta = (string) get_post_meta( get_the_ID(), '_wp_page_template', true );
 		$map  = [
-			'gl-page-index' => __DIR__ . '/templates/page-index.php',
-			'gl-page-blog'  => __DIR__ . '/templates/page-blog.php',
+			'gl-page-index'     => __DIR__ . '/templates/page-index.php',
+			'gl-page-blog'      => __DIR__ . '/templates/page-blog.php',
+			'gl-page-lightning' => __DIR__ . '/templates/page-lightning.php',
 		];
 		if ( isset( $map[ $meta ] ) && file_exists( $map[ $meta ] ) ) {
 			return $map[ $meta ];
