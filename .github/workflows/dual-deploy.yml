@@ -3,9 +3,12 @@ name: Dual Deploy
 on:
   push:
     branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   deploy:
@@ -51,3 +54,79 @@ jobs:
             -H "Authorization: Bearer ${WP_API_KEY}" \
             -d "{\"content\": ${CONTENT}}" \
             https://www.gamifiedlearning.org/wp-json/nexus-sync/v1/update
+
+      - name: Wait for Pages propagation
+        run: sleep 30
+
+      - name: Verify GitHub Pages — check for 404s
+        id: verify
+        run: |
+          DOMAINS=(
+            "https://amazinggracehomeliving.com"
+            "https://www.gamifiedlearning.org"
+          )
+          PATHS=(
+            "/"
+            "/index.html"
+          )
+
+          FAILED=0
+          REPORT=""
+
+          for base in "${DOMAINS[@]}"; do
+            for p in "${PATHS[@]}"; do
+              url="${base}${p}"
+              code=$(curl -o /dev/null -s -w "%{http_code}" --max-time 15 "$url")
+              echo "[$code] $url"
+              if [ "$code" -ge 400 ]; then
+                FAILED=1
+                REPORT="${REPORT}\n❌ HTTP ${code}: ${url}"
+                echo "::error::Endpoint returned HTTP $code: $url"
+                echo ""
+                echo "=== Copilot prompt ==="
+                echo "Analyze why GitHub Pages at $url returns HTTP $code after the latest deploy."
+                echo "Repo: $GITHUB_REPOSITORY  Commit: $GITHUB_SHA"
+                echo "Check: wrong build output path, missing index.html, baseurl mismatch, or misconfigured custom domain (CNAME)."
+                echo "====================="
+              fi
+            done
+          done
+
+          echo "failed=${FAILED}" >> "$GITHUB_OUTPUT"
+          # Store multi-line report safely
+          {
+            echo "report<<EOF"
+            printf "%b" "$REPORT"
+            echo ""
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          exit "$FAILED"
+
+      - name: Post 404 findings as PR comment
+        if: failure() && steps.verify.outputs.failed == '1' && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          VERIFY_REPORT: ${{ steps.verify.outputs.report }}
+        with:
+          script: |
+            const report = process.env.VERIFY_REPORT || '';
+            const repo = context.repo.repo;
+            const owner = context.repo.owner;
+            const sha = context.sha;
+            const body = [
+              '## ⚠️ Post-deploy 404 check failed',
+              '',
+              report.trim(),
+              '',
+              '**Copilot triage prompt:**',
+              '> Analyze why GitHub Pages returns the above HTTP errors after the latest deploy.',
+              `> Repo: \`${owner}/${repo}\`  Commit: \`${sha}\``,
+              '> Check: wrong build output path, missing index.html, baseurl mismatch, or misconfigured custom domain (CNAME).',
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: context.issue.number,
+              body,
+            });
