@@ -58,7 +58,7 @@ export function logout() {
  *     Back every privileged operation with Firebase security rules in production.
  *
  * @param {string[]} allowedRoles - Array of roles that may access this page.
- * @returns {{ uid: string, email: string, role: string }} The authenticated user.
+ * @returns {{ uid: string, email: string, role: string }|null} The authenticated user, or null after redirect if unauthenticated or unauthorized.
  */
 export function requireRole(allowedRoles) {
   // Warn developers when this client-side guard runs in a production context.

@@ -171,14 +171,20 @@
     btn.disabled    = true;
     btn.textContent = 'Redeeming…';
 
-    const result = await redeemAdminKey(db, code, targetEmail);
-    status.textContent    = result.message;
-    status.style.display  = 'block';
-    status.style.color    = result.success ? 'var(--matrix-green)' : 'var(--matrix-red)';
-
-    btn.disabled    = false;
-    btn.textContent = 'Redeem';
-    renderKeys();
+    try {
+      const result = await redeemAdminKey(db, code, targetEmail);
+      status.textContent    = result.message;
+      status.style.display  = 'block';
+      status.style.color    = result.success ? 'var(--matrix-green)' : 'var(--matrix-red)';
+      renderKeys();
+    } catch (err) {
+      status.textContent   = err?.message || 'Failed to redeem admin key.';
+      status.style.display = 'block';
+      status.style.color   = 'var(--matrix-red)';
+    } finally {
+      btn.disabled    = false;
+      btn.textContent = 'Redeem';
+    }
   });
 </script>
 

@@ -57,8 +57,8 @@ function timeoutSignal(ms) {
 const DNS_TARGETS = [
   { host: 'gamifiedlearning.org',       label: 'Main site' },
   { host: 'admin.gamifiedlearning.org', label: 'Admin panel' },
-  { host: '1.1.1.1',                    label: 'Cloudflare DNS' },
-  { host: '8.8.8.8',                    label: 'Google DNS' },
+  { host: 'one.one.one.one',             label: 'Cloudflare DNS' },
+  { host: 'dns.google',                 label: 'Google DNS' },
 ];
 
 /**

@@ -190,7 +190,7 @@ export async function loginWithEmail(email, password) {
   // Demo path: only active on local/preview hosts.
   // On production, this path is disabled so the shim accounts are never accessible.
   if (!IS_DEMO_HOST) {
-    throw new Error('Live Firebase Auth is required on this host. Configure firebase-config.js.');
+    throw new Error('Live Firebase Auth is required on this host. In admin/js/auth.js, uncomment the Firebase imports and fill in firebaseConfig.');
   }
 
   // Demo: accept any non-empty password for seeded accounts

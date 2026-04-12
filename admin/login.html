@@ -31,9 +31,13 @@
       </button>
     </form>
 
-    <p style="font-size:0.7rem;color:#2a3a2a;text-align:center;margin-top:1.25rem">
+    <p id="demo-hint" style="font-size:0.7rem;color:#2a3a2a;text-align:center;margin-top:1.25rem;display:none">
       Demo credentials — owner@matrix.dev / superadmin@matrix.dev / admin@matrix.dev
       <br>(any password of 4+ chars)
+    </p>
+    <p id="prod-hint" style="font-size:0.7rem;color:#2a3a2a;text-align:center;margin-top:1.25rem;display:none">
+      Use your administrator email address and password to sign in.
+      <br>Contact your system owner if you need access or credential assistance.
     </p>
   </div>
 </div>
@@ -42,17 +46,28 @@
   import { loginWithEmail } from '/admin/js/auth.js';
   import { getCurrentUser } from '/admin/js/admin-router.js';
 
-  // Already logged in → go to dashboard
-  if (getCurrentUser()) window.location.href = '/admin/index.html';
+  const reason = new URLSearchParams(window.location.search).get('reason');
+
+  // Already logged in → go to dashboard, but NOT when landing here due to
+  // an insufficient-role redirect (would cause an infinite redirect loop).
+  if (getCurrentUser() && reason !== 'insufficient_role') {
+    window.location.href = '/admin/index.html';
+  }
 
   // Show a message if redirected due to insufficient role
-  const reason = new URLSearchParams(window.location.search).get('reason');
   if (reason === 'insufficient_role') {
     const status = document.getElementById('login-status');
     status.textContent  = '🔒 Access denied: your account does not have the required role for that page.';
     status.className    = 'matrix-alert error';
     status.style.display = 'block';
   }
+
+  // Show demo or production credential hint depending on the host
+  const isDemoHost = (() => {
+    const h = location.hostname;
+    return h === 'localhost' || h === '127.0.0.1' || h.endsWith('.github.io');
+  })();
+  document.getElementById(isDemoHost ? 'demo-hint' : 'prod-hint').style.display = 'block';
 
   const form   = document.getElementById('login-form');
   const status = document.getElementById('login-status');
