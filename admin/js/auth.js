@@ -167,8 +167,30 @@ export const db = {
         const parts = path.split('/');
         if (parts[0] === 'users' && parts[1]) {
           const users = getDemoUsers();
-          const existingUser = users[parts[1]] || {};
-          users[parts[1]] = { ...existingUser, ...updates };
+          users[parts[1]] = users[parts[1]] || {};
+
+          // Deep-merge at the referenced path, matching Firebase-style nested updates.
+          let obj = users[parts[1]];
+          for (let i = 2; i < parts.length; i++) {
+            obj[parts[i]] = obj[parts[i]] || {};
+            obj = obj[parts[i]];
+          }
+
+          const existingNode =
+            obj && typeof obj === 'object' && !Array.isArray(obj) ? obj : {};
+          const nextUpdates =
+            updates && typeof updates === 'object' && !Array.isArray(updates) ? updates : {};
+
+          if (parts.length === 2) {
+            users[parts[1]] = { ...existingNode, ...nextUpdates };
+          } else {
+            const parent = users[parts[1]];
+            let target = parent;
+            for (let i = 2; i < parts.length - 1; i++) {
+              target = target[parts[i]];
+            }
+            target[parts[parts.length - 1]] = { ...existingNode, ...nextUpdates };
+          }
           saveDemoUsers(users);
         }
       },
