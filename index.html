@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gamified Learning</title>
   <style>
-    /* ── Base ─────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -15,228 +14,207 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 2rem;
-      padding: 1.5rem 1rem 3rem;
     }
 
-    h1.app-title {
-      font-size: 1.6rem;
+    /* ── Nav ─────────────────────────────────────── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #1a1a2e;
+      background: #0d0d1a;
+    }
+
+    nav .brand {
+      font-size: 1.1rem;
+      font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: #00ff41;
-      text-shadow: 0 0 10px #00ff4180;
+      text-shadow: 0 0 8px #00ff4160;
+      text-decoration: none;
     }
 
-    /* ── Match Maker ──────────────────────────────── */
-    .match-card {
-      background: #0d0d1a;
-      border: 1px solid #1a1a2e;
-      border-radius: 12px;
-      padding: 1rem;
-      width: 100%;
-      max-width: 460px;
-    }
-
-    .match-card h2 {
-      text-align: center;
-      font-size: 1.1rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #00ff41;
-      margin-bottom: 0.6rem;
-    }
-
-    .match-stats {
+    nav ul {
+      list-style: none;
       display: flex;
-      justify-content: space-around;
-      font-size: 0.85rem;
+      gap: 1.5rem;
+    }
+
+    nav ul a {
       color: #aaa;
-      margin-bottom: 0.8rem;
-    }
-
-    .match-stats span { color: #00ff41; font-weight: 700; }
-
-    .match-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 0.4rem;
-      padding: 0.8rem;
-      width: 100%;
-      max-width: 420px;
-      margin: 0 auto;
-    }
-
-    .match-cell {
-      aspect-ratio: 1 / 1;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      cursor: pointer;
-      background: #111;
-      box-shadow: 0 0 6px rgba(0,0,0,0.6);
-      transition: transform 0.1s ease, box-shadow 0.1s ease;
-      user-select: none;
-    }
-
-    .match-cell:hover { transform: scale(1.08); box-shadow: 0 0 10px rgba(0,255,65,0.3); }
-    .match-cell:active { transform: scale(0.94); }
-
-    .match-badge-banner {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #00ff41;
-      background: #001a00;
-      border: 1px solid #00ff4160;
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
-      margin-top: 0.6rem;
-    }
-
-    .match-badge-banner.hidden { display: none; }
-
-    .match-restart-btn {
-      display: block;
-      margin: 0.8rem auto 0;
-      background: transparent;
-      border: 1px solid #00ff41;
-      color: #00ff41;
-      padding: 0.4rem 1.4rem;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      transition: background 0.15s;
-    }
-
-    .match-restart-btn:hover { background: #00ff4120; }
-
-    /* ── Matrix of Conscience ─────────────────────── */
-    .matrix-card {
-      background: #0d0d1a;
-      border-radius: 12px;
-      padding: 1.2rem;
-      width: 100%;
-      max-width: 460px;
-    }
-
-    .matrix-border { border: 1px solid #1a2a3a; }
-
-    .matrix-heading {
-      text-align: center;
-      font-size: 1.1rem;
-      letter-spacing: 0.1em;
+      text-decoration: none;
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: #4fc3f7;
-      margin-bottom: 1rem;
+      transition: color 0.2s;
     }
 
-    .matrix-economy-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.8rem;
-    }
+    nav ul a:hover { color: #00ff41; }
 
-    .matrix-cell {
-      background: #111827;
-      border: 1px solid #1e3a5f;
-      border-radius: 8px;
-      padding: 0.8rem;
+    /* ── Hero ────────────────────────────────────── */
+    .hero {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.3rem;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 1.5rem;
+      gap: 1.5rem;
     }
 
-    .matrix-cell .icon { font-size: 1.6rem; }
+    .hero-tag {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #00ff41;
+      border: 1px solid #00ff4140;
+      padding: 0.3rem 0.9rem;
+      border-radius: 100px;
+    }
 
-    .matrix-cell .label {
-      font-size: 0.72rem;
+    .hero h1 {
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #fff;
+      line-height: 1.15;
+    }
+
+    .hero h1 span { color: #00ff41; text-shadow: 0 0 12px #00ff4180; }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: #888;
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .btn-primary {
+      background: #00ff41;
+      color: #0a0a0f;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #64b5f6;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
     }
 
-    .matrix-cell .value {
-      font-size: 1.1rem;
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    .btn-outline {
+      background: transparent;
+      color: #00ff41;
+      border: 1px solid #00ff41;
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
       font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-outline:hover { background: #00ff4115; transform: translateY(-1px); }
+
+    /* ── Locations strip ─────────────────────────── */
+    .locations {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      padding: 2rem 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .loc-card {
+      background: #0d0d1a;
+      border: 1px solid #1a1a2e;
+      border-radius: 12px;
+      padding: 1.4rem 2rem;
+      text-align: center;
+      text-decoration: none;
       color: #e0e0e0;
+      min-width: 160px;
+      transition: border-color 0.2s, transform 0.15s;
     }
 
-    .matrix-cell .bar-track {
-      width: 100%;
-      height: 4px;
-      background: #1e3a5f;
-      border-radius: 2px;
-      overflow: hidden;
+    .loc-card:hover { border-color: #00ff4160; transform: translateY(-2px); }
+
+    .loc-card .loc-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+
+    .loc-card .loc-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #00ff41;
     }
 
-    .matrix-cell .bar-fill {
-      height: 100%;
-      border-radius: 2px;
-      background: linear-gradient(90deg, #1565c0, #4fc3f7);
-      transition: width 0.4s ease;
+    .loc-card .loc-sub { font-size: 0.75rem; color: #666; margin-top: 0.2rem; }
+
+    /* ── Footer ──────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.75rem;
+      color: #333;
+      border-top: 1px solid #1a1a2e;
     }
   </style>
 </head>
 <body>
 
-  <h1 class="app-title">Gamified Learning</h1>
+  <nav>
+    <a href="index.html" class="brand">Gamified Learning</a>
+    <ul>
+      <li><a href="games.html">Games</a></li>
+      <li><a href="largo.html">Largo</a></li>
+      <li><a href="Tampa.html">Tampa</a></li>
+    </ul>
+  </nav>
 
-  <!-- ══ Match Maker ══════════════════════════════════ -->
-  <section class="match-card" id="match-maker-screen">
-    <h2>Match Maker</h2>
-
-    <div class="match-stats">
-      <div>Score: <span id="match-score">0</span></div>
-      <div>Moves: <span id="match-moves">20</span></div>
-      <div>Level: <span id="match-level">1</span></div>
+  <main class="hero">
+    <span class="hero-tag">Free · No login required</span>
+    <h1>Learn Through <span>Play</span></h1>
+    <p>Browser-based educational games designed to build critical thinking, empathy, and digital skills — open to everyone, no account needed.</p>
+    <div class="hero-btns">
+      <a href="games.html" class="btn-primary">Browse Games</a>
+      <a href="largo.html" class="btn-outline">Find a Location</a>
     </div>
+  </main>
 
-    <div class="match-grid" id="match-grid"></div>
-
-    <div id="match-badge-banner" class="match-badge-banner hidden"></div>
-
-    <button class="match-restart-btn" id="match-restart-btn">↺ Restart</button>
+  <section class="locations">
+    <a href="largo.html" class="loc-card">
+      <div class="loc-icon">📍</div>
+      <div class="loc-name">Largo</div>
+      <div class="loc-sub">Pinellas County, FL</div>
+    </a>
+    <a href="Tampa.html" class="loc-card">
+      <div class="loc-icon">📍</div>
+      <div class="loc-name">Tampa</div>
+      <div class="loc-sub">Hillsborough County, FL</div>
+    </a>
   </section>
 
-  <!-- ══ Matrix of Conscience ════════════════════════ -->
-  <section class="matrix-card matrix-border" id="matrix-economy-screen">
-    <h2 class="matrix-heading">Matrix of Conscience</h2>
+  <footer>&copy; 2026 Gamified Learning. All rights reserved.</footer>
 
-    <div class="matrix-economy-grid">
-      <div class="matrix-cell">
-        <span class="icon">💖</span>
-        <span class="label">Empathy</span>
-        <span class="value" id="mc-empathy">72</span>
-        <div class="bar-track"><div class="bar-fill" id="mc-empathy-bar" style="width:72%"></div></div>
-      </div>
-
-      <div class="matrix-cell">
-        <span class="icon">⚖️</span>
-        <span class="label">Justice</span>
-        <span class="value" id="mc-justice">58</span>
-        <div class="bar-track"><div class="bar-fill" id="mc-justice-bar" style="width:58%"></div></div>
-      </div>
-
-      <div class="matrix-cell">
-        <span class="icon">🧠</span>
-        <span class="label">Wisdom</span>
-        <span class="value" id="mc-wisdom">45</span>
-        <div class="bar-track"><div class="bar-fill" id="mc-wisdom-bar" style="width:45%"></div></div>
-      </div>
-
-      <div class="matrix-cell">
-        <span class="icon">🌱</span>
-        <span class="label">Growth</span>
-        <span class="value" id="mc-growth">83</span>
-        <div class="bar-track"><div class="bar-fill" id="mc-growth-bar" style="width:83%"></div></div>
-      </div>
-    </div>
-  </section>
-
-  <script type="module" src="./main.js"></script>
 </body>
 </html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tampa – Gamified Learning</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a0f;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Nav ─────────────────────────────────────── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #1a1a2e;
+      background: #0d0d1a;
+    }
+
+    nav .brand {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #00ff41;
+      text-shadow: 0 0 8px #00ff4160;
+      text-decoration: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav ul a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover, nav ul a.active { color: #00ff41; }
+
+    /* ── Hero ────────────────────────────────────── */
+    .loc-hero {
+      padding: 3.5rem 2rem 2rem;
+      text-align: center;
+    }
+
+    .loc-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #00ff41;
+      border: 1px solid #00ff4140;
+      padding: 0.25rem 0.8rem;
+      border-radius: 100px;
+      margin-bottom: 1rem;
+    }
+
+    .loc-hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .loc-hero h1 span { color: #00ff41; text-shadow: 0 0 12px #00ff4180; }
+
+    .loc-hero p {
+      margin-top: 0.8rem;
+      font-size: 1rem;
+      color: #777;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+
+    /* ── Info cards ──────────────────────────────── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.2rem;
+      padding: 2.5rem 2rem;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .info-card {
+      background: #0d0d1a;
+      border: 1px solid #1a1a2e;
+      border-radius: 14px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .info-card .card-icon { font-size: 1.8rem; }
+
+    .info-card .card-title {
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #00ff41;
+      font-weight: 700;
+    }
+
+    .info-card .card-value {
+      font-size: 1rem;
+      color: #e0e0e0;
+      line-height: 1.5;
+    }
+
+    /* ── CTA ─────────────────────────────────────── */
+    .cta-section {
+      text-align: center;
+      padding: 2rem 1.5rem 3rem;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: #00ff41;
+      color: #0a0a0f;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* ── Footer ──────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.75rem;
+      color: #333;
+      border-top: 1px solid #1a1a2e;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="brand">Gamified Learning</a>
+    <ul>
+      <li><a href="games.html">Games</a></li>
+      <li><a href="largo.html">Largo</a></li>
+      <li><a href="Tampa.html" class="active">Tampa</a></li>
+    </ul>
+  </nav>
+
+  <div class="loc-hero">
+    <span class="loc-tag">📍 Hillsborough County, FL</span>
+    <h1>Gamified Learning <span>Tampa</span></h1>
+    <p>Free browser-based learning games available to everyone in the Tampa community. No account or login needed.</p>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <span class="card-icon">🕹️</span>
+      <span class="card-title">Available Games</span>
+      <span class="card-value">Match Maker, Matrix of Conscience — play directly in your browser, no download required.</span>
+    </div>
+
+    <div class="info-card">
+      <span class="card-icon">🌐</span>
+      <span class="card-title">Access</span>
+      <span class="card-value">100% free and public. Open on any device — desktop, tablet, or phone.</span>
+    </div>
+
+    <div class="info-card">
+      <span class="card-icon">🏫</span>
+      <span class="card-title">Audience</span>
+      <span class="card-value">Students, educators, and community members in Tampa and the surrounding Hillsborough County area.</span>
+    </div>
+
+    <div class="info-card">
+      <span class="card-icon">🔔</span>
+      <span class="card-title">Updates</span>
+      <span class="card-value">New games and learning modules are added regularly. Check back often for the latest content.</span>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <a href="games.html" class="btn-primary">Play Now — Free</a>
+  </div>
+
+  <footer>&copy; 2026 Gamified Learning. All rights reserved.</footer>
+
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Games – Gamified Learning</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a0f;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Nav ─────────────────────────────────────── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #1a1a2e;
+      background: #0d0d1a;
+    }
+
+    nav .brand {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #00ff41;
+      text-shadow: 0 0 8px #00ff4160;
+      text-decoration: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav ul a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover, nav ul a.active { color: #00ff41; }
+
+    /* ── Page header ─────────────────────────────── */
+    .page-header {
+      padding: 3rem 2rem 1.5rem;
+      text-align: center;
+    }
+
+    .page-header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .page-header h1 span { color: #00ff41; text-shadow: 0 0 10px #00ff4180; }
+
+    .page-header p {
+      margin-top: 0.6rem;
+      font-size: 0.95rem;
+      color: #666;
+    }
+
+    /* ── Games grid ──────────────────────────────── */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+      padding: 2rem;
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .game-card {
+      background: #0d0d1a;
+      border: 1px solid #1a1a2e;
+      border-radius: 14px;
+      padding: 1.6rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .game-card:hover { border-color: #00ff4160; transform: translateY(-3px); }
+
+    .game-icon { font-size: 2.4rem; }
+
+    .game-title {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #00ff41;
+    }
+
+    .game-desc {
+      font-size: 0.85rem;
+      color: #777;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .game-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      border: 1px solid #00ff4140;
+      color: #00ff41;
+      width: fit-content;
+    }
+
+    .game-badge.locked {
+      border-color: #444;
+      color: #555;
+    }
+
+    .play-btn {
+      display: block;
+      text-align: center;
+      margin-top: 0.4rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid #00ff41;
+      border-radius: 8px;
+      color: #00ff41;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .play-btn:hover { background: #00ff4115; }
+
+    .play-btn.disabled {
+      border-color: #333;
+      color: #444;
+      pointer-events: none;
+    }
+
+    /* ── Match Maker inline game ─────────────────── */
+    .inline-game-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      padding: 2rem 1rem 3rem;
+      max-width: 500px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #4fc3f7;
+      text-align: center;
+      padding: 0 2rem;
+    }
+
+    .match-card {
+      background: #0d0d1a;
+      border: 1px solid #1a1a2e;
+      border-radius: 12px;
+      padding: 1rem;
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .match-card h2 {
+      text-align: center;
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #00ff41;
+      margin-bottom: 0.6rem;
+    }
+
+    .match-stats {
+      display: flex;
+      justify-content: space-around;
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-bottom: 0.8rem;
+    }
+
+    .match-stats span { color: #00ff41; font-weight: 700; }
+
+    .match-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.4rem;
+      padding: 0.8rem;
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .match-cell {
+      aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      cursor: pointer;
+      background: #111;
+      box-shadow: 0 0 6px rgba(0,0,0,0.6);
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      user-select: none;
+    }
+
+    .match-cell:hover { transform: scale(1.08); box-shadow: 0 0 10px rgba(0,255,65,0.3); }
+    .match-cell:active { transform: scale(0.94); }
+
+    .match-badge-banner {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #00ff41;
+      background: #001a00;
+      border: 1px solid #00ff4160;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      margin-top: 0.6rem;
+    }
+
+    .match-badge-banner.hidden { display: none; }
+
+    .match-restart-btn {
+      display: block;
+      margin: 0.8rem auto 0;
+      background: transparent;
+      border: 1px solid #00ff41;
+      color: #00ff41;
+      padding: 0.4rem 1.4rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      transition: background 0.15s;
+    }
+
+    .match-restart-btn:hover { background: #00ff4120; }
+
+    /* ── Matrix of Conscience ─────────────────────── */
+    .matrix-card {
+      background: #0d0d1a;
+      border-radius: 12px;
+      padding: 1.2rem;
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .matrix-border { border: 1px solid #1a2a3a; }
+
+    .matrix-heading {
+      text-align: center;
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #4fc3f7;
+      margin-bottom: 1rem;
+    }
+
+    .matrix-economy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    .matrix-cell {
+      background: #111827;
+      border: 1px solid #1e3a5f;
+      border-radius: 8px;
+      padding: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .matrix-cell .icon { font-size: 1.6rem; }
+
+    .matrix-cell .label {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #64b5f6;
+    }
+
+    .matrix-cell .value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #e0e0e0;
+    }
+
+    .matrix-cell .bar-track {
+      width: 100%;
+      height: 4px;
+      background: #1e3a5f;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .matrix-cell .bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #1565c0, #4fc3f7);
+      transition: width 0.4s ease;
+    }
+
+    /* ── Footer ──────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.75rem;
+      color: #333;
+      border-top: 1px solid #1a1a2e;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="brand">Gamified Learning</a>
+    <ul>
+      <li><a href="games.html" class="active">Games</a></li>
+      <li><a href="largo.html">Largo</a></li>
+      <li><a href="Tampa.html">Tampa</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <h1>Available <span>Games</span></h1>
+    <p>No login required — play directly in your browser</p>
+  </div>
+
+  <div class="games-grid">
+    <div class="game-card">
+      <div class="game-icon">💎</div>
+      <div class="game-title">Match Maker</div>
+      <div class="game-desc">Swap and match gems in a 7×7 grid. Earn points, unlock badges, and level up your pattern recognition skills.</div>
+      <span class="game-badge">Available</span>
+    </div>
+
+    <div class="game-card">
+      <div class="game-icon">⚖️</div>
+      <div class="game-title">Matrix of Conscience</div>
+      <div class="game-desc">Track your Empathy, Justice, Wisdom, and Growth scores as you work through scenario-based challenges.</div>
+      <span class="game-badge">Available</span>
+    </div>
+
+    <div class="game-card">
+      <div class="game-icon">🛡️</div>
+      <div class="game-title">Network Defense</div>
+      <div class="game-desc">Defend your network from incoming threats and learn the fundamentals of cybersecurity through interactive play.</div>
+      <span class="game-badge locked">Coming Soon</span>
+    </div>
+
+    <div class="game-card">
+      <div class="game-icon">🔐</div>
+      <div class="game-title">Security Decryption</div>
+      <div class="game-desc">Crack encrypted messages and learn about cryptographic principles in this terminal-style puzzle game.</div>
+      <span class="game-badge locked">Coming Soon</span>
+    </div>
+  </div>
+
+  <p class="section-title">▼ Play Match Maker Now</p>
+
+  <div class="inline-game-wrapper">
+
+    <!-- ══ Match Maker ══════════════════════════════════ -->
+    <section class="match-card" id="match-maker-screen">
+      <h2>Match Maker</h2>
+
+      <div class="match-stats">
+        <div>Score: <span id="match-score">0</span></div>
+        <div>Moves: <span id="match-moves">20</span></div>
+        <div>Level: <span id="match-level">1</span></div>
+      </div>
+
+      <div class="match-grid" id="match-grid"></div>
+
+      <div id="match-badge-banner" class="match-badge-banner hidden"></div>
+
+      <button class="match-restart-btn" id="match-restart-btn">↺ Restart</button>
+    </section>
+
+    <!-- ══ Matrix of Conscience ════════════════════════ -->
+    <section class="matrix-card matrix-border" id="matrix-economy-screen">
+      <h2 class="matrix-heading">Matrix of Conscience</h2>
+
+      <div class="matrix-economy-grid">
+        <div class="matrix-cell">
+          <span class="icon">💖</span>
+          <span class="label">Empathy</span>
+          <span class="value" id="mc-empathy">72</span>
+          <div class="bar-track"><div class="bar-fill" id="mc-empathy-bar" style="width:72%"></div></div>
+        </div>
+
+        <div class="matrix-cell">
+          <span class="icon">⚖️</span>
+          <span class="label">Justice</span>
+          <span class="value" id="mc-justice">58</span>
+          <div class="bar-track"><div class="bar-fill" id="mc-justice-bar" style="width:58%"></div></div>
+        </div>
+
+        <div class="matrix-cell">
+          <span class="icon">🧠</span>
+          <span class="label">Wisdom</span>
+          <span class="value" id="mc-wisdom">45</span>
+          <div class="bar-track"><div class="bar-fill" id="mc-wisdom-bar" style="width:45%"></div></div>
+        </div>
+
+        <div class="matrix-cell">
+          <span class="icon">🌱</span>
+          <span class="label">Growth</span>
+          <span class="value" id="mc-growth">83</span>
+          <div class="bar-track"><div class="bar-fill" id="mc-growth-bar" style="width:83%"></div></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>&copy; 2026 Gamified Learning. All rights reserved.</footer>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
