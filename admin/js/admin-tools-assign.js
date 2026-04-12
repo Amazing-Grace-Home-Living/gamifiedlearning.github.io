@@ -16,14 +16,12 @@ export async function setUserTool(db, uid, tool, enabled) {
 }
 
 /**
- * Batch-assign multiple tools to a user.
+ * Batch-assign multiple tools to a user in a single write.
  *
  * @param {object} db
  * @param {string} uid
  * @param {Record<string, boolean>} toolMap - e.g. { networkDefense: true, diagnostics: false }
  */
 export async function setUserTools(db, uid, toolMap) {
-  for (const [tool, enabled] of Object.entries(toolMap)) {
-    await setUserTool(db, uid, tool, enabled);
-  }
+  await db.ref(`users/${uid}/tools`).update(toolMap);
 }

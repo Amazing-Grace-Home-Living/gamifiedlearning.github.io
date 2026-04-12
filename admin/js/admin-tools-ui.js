@@ -3,7 +3,7 @@
  * Renders the Super Admin Tool Assignment panel and persists changes.
  */
 
-import { setUserTool } from './admin-tools-assign.js';
+import { setUserTools } from './admin-tools-assign.js';
 
 const TOOLS = [
   { key: 'networkDefense', label: 'Network Defense' },
@@ -64,9 +64,16 @@ export async function renderToolAssignment(db) {
     saveBtn.disabled = true;
     saveBtn.textContent = 'Saving…';
     try {
+      // Group checkbox state by uid so each user gets one batched write
       const boxes = Array.from(document.querySelectorAll('input[data-tool]'));
+      const byUid = {};
+      boxes.forEach(box => {
+        const uid = box.dataset.uid;
+        if (!byUid[uid]) byUid[uid] = {};
+        byUid[uid][box.dataset.tool] = box.checked;
+      });
       await Promise.all(
-        boxes.map(box => setUserTool(db, box.dataset.uid, box.dataset.tool, box.checked))
+        Object.entries(byUid).map(([uid, toolMap]) => setUserTools(db, uid, toolMap))
       );
       showStatus('Tool assignments saved.');
     } catch (err) {
