@@ -1,0 +1,66 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-bg: #0a0a1a;
+  --color-bg-card: #0d0d1e;
+  --color-border: #1a1a30;
+  --color-primary: #c8a84b;
+  --color-primary-glow: rgba(200, 168, 75, 0.35);
+  --color-accent: #7b5ea7;
+  --color-accent-glow: rgba(123, 94, 167, 0.35);
+  --color-text: #e0ddd8;
+  --color-text-muted: #8a8070;
+  --color-success: #4caf7d;
+  --color-danger: #c0392b;
+  --color-warning: #e8b84b;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --font-body: 'Segoe UI', system-ui, sans-serif;
+  --font-lore: Georgia, 'Times New Roman', serif;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+}
