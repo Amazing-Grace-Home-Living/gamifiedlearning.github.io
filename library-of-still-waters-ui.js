@@ -29,10 +29,22 @@ let currentScenario = 0;
 let wisdomScore = 0;
 let lswCompleted = false;
 
+function resetLSWUIState() {
+  const retryBtn = document.getElementById('lsw-retry-btn');
+  const choiceRow = document.getElementById('lsw-choice-row');
+
+  if (retryBtn) retryBtn.classList.add('hidden');
+  if (choiceRow) choiceRow.classList.remove('hidden');
+
+  setLSWStatus('Your choices ripple across the surface of the pool.');
+  updateProgress();
+}
+
 export function initLibraryOfStillWaters() {
   currentScenario = 0;
   wisdomScore = 0;
   lswCompleted = false;
+  resetLSWUIState();
   renderScenario();
 }
 
