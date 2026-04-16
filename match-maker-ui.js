@@ -126,6 +126,8 @@ function clearPendingResolve() {
 function resolveMatches(activeRunId = runId) {
   if (activeRunId !== runId) return;
 
+  clearPendingResolve();
+
   const matches = findMatches(grid);
   if (matches.length === 0) {
     clearPendingResolve();
@@ -145,7 +147,10 @@ function resolveMatches(activeRunId = runId) {
   renderGrid();
 
   // chain reactions
-  resolveTimeoutId = setTimeout(() => resolveMatches(activeRunId), CHAIN_REACTION_DELAY_MS);
+  resolveTimeoutId = setTimeout(() => {
+    resolveTimeoutId = null;
+    resolveMatches(activeRunId);
+  }, CHAIN_REACTION_DELAY_MS);
 }
 
 function checkLevelUp() {
