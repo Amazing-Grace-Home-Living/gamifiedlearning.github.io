@@ -1,18 +1,17 @@
-import gameConfig from '../config/gameConfig.json' assert { type: 'json' };
+import gameConfig from '../config/gameConfig.json' with { type: 'json' };
 
 /**
  * Returns the combo reward for the given chain length, or null if no tier is met.
+ * Tiers are evaluated in descending order of their chain threshold so the highest
+ * matching tier always wins — no manual ordering required when config changes.
  *
  * @param {number} chain - Number of consecutive matches in the chain.
  * @returns {{ xpMultiplier: number, fx?: string, powerUp?: string } | null}
  */
 export function getComboReward(chain) {
-  const combos = gameConfig.combos;
+  const tiers = Object.values(gameConfig.combos)
+    .sort((a, b) => b.chain - a.chain);
 
-  if (chain >= combos.tier4.chain) return combos.tier4.reward;
-  if (chain >= combos.tier3.chain) return combos.tier3.reward;
-  if (chain >= combos.tier2.chain) return combos.tier2.reward;
-  if (chain >= combos.tier1.chain) return combos.tier1.reward;
-
-  return null;
+  const matched = tiers.find(tier => chain >= tier.chain);
+  return matched ? matched.reward : null;
 }

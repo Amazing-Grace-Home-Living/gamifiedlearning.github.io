@@ -1,4 +1,4 @@
-import gameConfig from '../config/gameConfig.json' assert { type: 'json' };
+import gameConfig from '../config/gameConfig.json' with { type: 'json' };
 
 /** Internal queue consumed by the rendering loop. */
 const fxQueue = [];
@@ -22,5 +22,7 @@ export function playFX(type, payload = {}) {
  * @returns {Array<{ sprite: string }>}
  */
 export function drainFXQueue() {
-  return fxQueue.splice(0, fxQueue.length);
+  const drained = [...fxQueue];
+  fxQueue.length = 0;
+  return drained;
 }

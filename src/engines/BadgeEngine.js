@@ -1,4 +1,4 @@
-import gameConfig from '../config/gameConfig.json' assert { type: 'json' };
+import gameConfig from '../config/gameConfig.json' with { type: 'json' };
 
 /**
  * Returns true when `stats` satisfies every sub-condition in `condition`.

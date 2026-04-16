@@ -1,4 +1,4 @@
-import gameConfig from '../config/gameConfig.json' assert { type: 'json' };
+import gameConfig from '../config/gameConfig.json' with { type: 'json' };
 import { playFX } from './fxEngine.js';
 
 /* ── Effect stubs ────────────────────────────────────────────────────────── */
@@ -7,6 +7,13 @@ function lineClear()       { /* TODO: implement line-clear board effect */ }
 function crossExplosion()  { /* TODO: implement cross-explosion board effect */ }
 function colorClear()      { /* TODO: implement color-clear board effect */ }
 function divineRevelation(){ /* TODO: implement board-transform effect */ }
+
+const effectHandlers = {
+  lineClear,
+  crossExplosion,
+  colorClear,
+  boardTransform: divineRevelation,
+};
 
 /* ── Resolver ────────────────────────────────────────────────────────────── */
 
@@ -23,10 +30,5 @@ export function resolvePowerUp(type) {
 
   playFX(p.fx);
 
-  if (p.effect === 'lineClear')      return lineClear();
-  if (p.effect === 'crossExplosion') return crossExplosion();
-  if (p.effect === 'colorClear')     return colorClear();
-  if (p.effect === 'boardTransform') return divineRevelation();
-
-  return null;
+  return effectHandlers[p.effect]?.() ?? null;
 }
