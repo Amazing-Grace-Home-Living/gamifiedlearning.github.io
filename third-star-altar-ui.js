@@ -44,6 +44,7 @@ function renderSlots() {
 
     slot.addEventListener('dragend', () => {
       slot.classList.remove('altar-slot--dragging');
+      dragSrcIndex = null;
     });
 
     slot.addEventListener('dragover', (e) => {
