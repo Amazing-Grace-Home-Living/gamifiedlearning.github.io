@@ -17,11 +17,18 @@ let moves = 20;
 let level = 1;
 let db = null;
 let user = null;
+let pendingTimeout = null;
 
 const SCORE_PER_LEVEL = 500;
 const CHAIN_REACTION_DELAY_MS = 200;
 
 export function initMatchMaker(dbRef, userRef) {
+  // Cancel any pending chain reaction from previous game
+  if (pendingTimeout !== null) {
+    clearTimeout(pendingTimeout);
+    pendingTimeout = null;
+  }
+
   db = dbRef;
   user = userRef;
   score = 0;
@@ -115,6 +122,7 @@ function highlightCell(r, c, on) {
 function resolveMatches() {
   const matches = findMatches(grid);
   if (matches.length === 0) {
+    pendingTimeout = null;
     renderGrid();
     checkLevelUp();
     checkGameOver();
@@ -131,7 +139,7 @@ function resolveMatches() {
   renderGrid();
 
   // chain reactions
-  setTimeout(resolveMatches, CHAIN_REACTION_DELAY_MS);
+  pendingTimeout = setTimeout(resolveMatches, CHAIN_REACTION_DELAY_MS);
 }
 
 function checkLevelUp() {
