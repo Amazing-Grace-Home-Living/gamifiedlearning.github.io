@@ -1,0 +1,93 @@
+:root {
+  --bg-main: #05030b;
+  --bg-panel: #0d0718;
+  --accent-purple: #7b3fe4;
+  --accent-gold: #d4af37;
+  --text-main: #f5f5ff;
+  --text-muted: #b3a9d6;
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --glow-purple: 0 0 24px rgba(123, 63, 228, 0.35);
+  --glow-gold: 0 0 18px rgba(212, 175, 55, 0.4);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #1a0b3a 0%, #05030b 55%, #020109 100%);
+  color: var(--text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  margin: 0 0 0.6em;
+  letter-spacing: 0.04em;
+}
+
+h1 { font-size: 1.9rem; }
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.1rem; }
+
+p { margin: 0 0 1em; color: var(--text-muted); }
+
+a {
+  color: var(--accent-purple);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover { color: var(--accent-gold); }
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border-soft);
+  margin: 1.5rem 0;
+}
+
+.text-gold { color: var(--accent-gold); }
+.text-purple { color: var(--accent-purple); }
+.text-muted { color: var(--text-muted); }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.badge.gold {
+  border-color: rgba(212, 175, 55, 0.4);
+  color: var(--accent-gold);
+  background: rgba(212, 175, 55, 0.07);
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  border-radius: 10px;
+  border: 1px solid var(--accent-purple);
+  background: rgba(123, 63, 228, 0.12);
+  color: var(--text-main);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+.btn:hover {
+  background: rgba(123, 63, 228, 0.25);
+  transform: translateY(-1px);
+}
+.btn.gold {
+  border-color: var(--accent-gold);
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--accent-gold);
+}
+.btn.gold:hover { background: rgba(212, 175, 55, 0.22); }

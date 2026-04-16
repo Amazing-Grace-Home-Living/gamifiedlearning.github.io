@@ -243,10 +243,14 @@
       <div class="shell-nav">
         <button class="pill-btn active" data-load="overworld">Overworld</button>
         <button class="pill-btn" data-load="seven-stars">Seven Stars</button>
+        <button class="pill-btn" data-load="truth-star">Truth ⚖️</button>
+        <button class="pill-btn" data-load="unity-star">Unity 🧵</button>
+        <button class="pill-btn" data-load="creation-star">Creation 🔨</button>
         <button class="pill-btn" data-load="arcade">Arcade</button>
         <button class="pill-btn" data-load="lore-codex">Lore Codex</button>
         <button class="pill-btn" data-load="listings">Listings</button>
         <button class="pill-btn" data-load="ministry">Ministry</button>
+        <button class="pill-btn" data-load="devotional">Devotional 📖</button>
         <button class="pill-btn" data-load="badges">Badges</button>
       </div>
     </header>
@@ -309,11 +313,15 @@
     const moduleInitializers = {
       overworld: initOverworld,
       'seven-stars': initSevenStars,
+      'truth-star': initTruthStar,
+      'unity-star': initUnityStar,
+      'creation-star': initCreationStar,
       arcade: initArcade,
       ministry: initMinistry,
       listings: initListings,
       badges: initBadges,
       'lore-codex': initLoreCodex,
+      devotional: initDevotional,
     };
 
     const loreEntries = {
@@ -322,6 +330,10 @@
       ruby_catalyst_master: { title: 'The Ember of Resolve', church: 'Pergamum', body: 'Discernment sharpens; you separate truth from daggered whispers.' },
       supernova_ascendant: { title: 'The Shattering of Darkness', church: 'Sardis', body: 'Dead works fall away as you spark a revival of what remains.' },
       revelation_bearer: { title: 'The Seven Stars Awaken', church: 'Laodicea', body: 'Lukewarm turns luminous; the full constellation is now in your grasp.' },
+      truth_star_aligned: { title: 'Chamber of Unbroken Lines', church: 'Seventh Star', body: 'You walked the silver line and learned: truth is not a weapon. It is a foundation.' },
+      unity_star_aligned: { title: 'Bridge of Many Voices', church: 'Eighth Star', body: 'You crossed the bridge built from stone, timber, and cord — many materials, one passage.' },
+      creation_star_aligned: { title: 'Workshop of First Light', church: 'Ninth Star', body: 'You completed your shift. Tools still warm. The shelf holds your work among the work of others.' },
+      devotional_received: { title: 'Word Received', church: 'Daily Practice', body: 'A verse and reflection drawn from the Seven Stars. The devotional generator is active.' },
     };
 
     const sevenStarQuestions = [
@@ -367,6 +379,9 @@
       'listing-viewed:largo': { item: 'housing_key_largo' },
       'star-collected:Ephesus': { item: 'ministry_scroll' },
       'combo-tier4': { badge: 'revelation_bearer' },
+      'star-collected:Chamber of Unbroken Lines': { badge: 'truth_star_aligned' },
+      'star-collected:Bridge of Many Voices': { badge: 'unity_star_aligned' },
+      'star-collected:Workshop of First Light': { badge: 'creation_star_aligned' },
     };
 
     function clamp(value, min, max) { return Math.min(Math.max(value, min), max); }
@@ -531,6 +546,11 @@
     function initLoreCodex() {
       renderLoreCodex();
     }
+
+    function initTruthStar() { /* storyline driven by inline script in module */ }
+    function initUnityStar() { /* storyline driven by inline script in module */ }
+    function initCreationStar() { /* storyline driven by inline script in module */ }
+    function initDevotional() { /* devotional driven by inline script in module */ }
 
     // --- Render helpers ------------------------------------------------------
     function renderMysteryMeter() {

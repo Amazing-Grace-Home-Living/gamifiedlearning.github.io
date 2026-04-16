@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seven Stars — Voice of Jesus Ministry</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/stars.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="site-logo" href="index.html">✦ Voice of Jesus Ministry</a>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="stars.html" class="active">Seven Stars</a>
+      <a href="blackwood.html">Blackwood</a>
+      <a href="devotionals.html">Devotionals</a>
+      <a href="os-shell.html">Nexus OS</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="page-wrap">
+
+    <div class="hero">
+      <p class="section-label">Nexus Cosmology</p>
+      <h1>The Seven Stars</h1>
+      <p>Each star is a virtue, a location, a test, and a way of walking. Select a star to read its lore and explore its lesson.</p>
+    </div>
+
+    <div class="content-panel">
+
+      <div class="star-progress">
+        <span class="text-muted" style="font-size:0.85rem; white-space:nowrap;">Stars explored:</span>
+        <div class="star-progress-bar">
+          <div class="star-progress-fill" id="stars-progress-fill" style="width:0%"></div>
+        </div>
+        <span id="stars-progress-label" class="badge gold">0 / 7</span>
+      </div>
+
+      <div class="stars-grid" id="stars-grid">
+
+        <div class="star-card" data-star="discernment">
+          <span class="star-icon">🔦</span>
+          <span class="star-name">Discernment</span>
+          <span class="star-region">Blackwood</span>
+        </div>
+
+        <div class="star-card" data-star="wisdom">
+          <span class="star-icon">🪞</span>
+          <span class="star-name">Wisdom</span>
+          <span class="star-region">Library of Still Waters</span>
+        </div>
+
+        <div class="star-card" data-star="courage">
+          <span class="star-icon">👣</span>
+          <span class="star-name">Courage</span>
+          <span class="star-region">Valley of Echoing Steps</span>
+        </div>
+
+        <div class="star-card" data-star="mercy">
+          <span class="star-icon">⛓️</span>
+          <span class="star-name">Mercy</span>
+          <span class="star-region">Hall of Unfinished Sentences</span>
+        </div>
+
+        <div class="star-card" data-star="truth">
+          <span class="star-icon">📏</span>
+          <span class="star-name">Truth</span>
+          <span class="star-region">Chamber of Unbroken Lines</span>
+        </div>
+
+        <div class="star-card" data-star="unity">
+          <span class="star-icon">🧵</span>
+          <span class="star-name">Unity</span>
+          <span class="star-region">Bridge of Many Voices</span>
+        </div>
+
+        <div class="star-card" data-star="creation">
+          <span class="star-icon">🔨</span>
+          <span class="star-name">Creation</span>
+          <span class="star-region">Workshop of First Light</span>
+        </div>
+
+      </div>
+
+      <div class="star-detail" id="star-detail">
+        <div class="detail-symbol" id="detail-icon"></div>
+        <p class="section-label" id="detail-region"></p>
+        <h2 id="detail-name"></h2>
+        <p id="detail-essence"></p>
+        <blockquote id="detail-lesson"></blockquote>
+        <p id="detail-body"></p>
+        <div style="margin-top:1rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <span class="badge gold" id="detail-symbol-badge"></span>
+          <a href="os-shell.html" class="btn">Open in Nexus OS ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>Voice of Jesus Ministry · Seven-Star Nexus · <a href="contact.html">Contact</a></p>
+  </footer>
+
+  <script>
+    const stars = {
+      discernment: {
+        icon: '🔦', name: 'Third Star — Discernment', region: 'Blackwood',
+        essence: 'Seeing what is real, not what is assumed.',
+        lesson: 'Truth is often implied, not announced.',
+        body: 'Blackwood is a region of shadow and outline. The lantern does not illuminate everything at once — it shows only what you are willing to look at. The ledger records what is, not what was wished for.',
+        symbol: 'Ledger and Lantern',
+      },
+      wisdom: {
+        icon: '🪞', name: 'Fourth Star — Wisdom', region: 'Library of Still Waters',
+        essence: 'Choosing well once truth is known.',
+        lesson: 'Not every truth must be spoken; not every path must be taken.',
+        body: 'The library has no shelves. Its knowledge lives in the surface of a still pool that mirrors the one who looks. Wisdom is the restraint to wait, the discernment to choose, and the courage to close a door that was never meant to be opened.',
+        symbol: 'Reflective Pool',
+      },
+      courage: {
+        icon: '👣', name: 'Fifth Star — Courage', region: 'Valley of Echoing Steps',
+        essence: 'Moving forward despite fear.',
+        lesson: 'The echo of "what if" is quieter than "I never tried."',
+        body: 'Every footfall in this valley returns as sound. The courageous traveler learns that every step forward creates its own momentum. The footprint left in stone is evidence of movement, not a monument to strength.',
+        symbol: 'Footprint in Stone',
+      },
+      mercy: {
+        icon: '⛓️', name: 'Sixth Star — Mercy', region: 'Hall of Unfinished Sentences',
+        essence: 'Refusing to let justice harden into vengeance.',
+        lesson: 'You cannot change what was done, but you can change what comes next.',
+        body: 'The hall is full of conversations that stopped mid-breath. Mercy mends the break with something more valuable than the original. The gold that fills the crack is visible on purpose — the repair is honored, not hidden.',
+        symbol: 'Broken Chain Mended with Gold',
+      },
+      truth: {
+        icon: '📏', name: 'Seventh Star — Truth', region: 'Chamber of Unbroken Lines',
+        essence: 'Alignment between word, action, and belief.',
+        lesson: 'Truth is not a weapon; it is a foundation.',
+        body: 'The chamber has no ceiling. A single silver line runs from the entrance to the far wall without bending. Every traveler who enters must walk it — not to perform perfection, but to discover where their own walk drifts.',
+        symbol: 'Straight Silver Line',
+      },
+      unity: {
+        icon: '🧵', name: 'Eighth Star — Unity', region: 'Bridge of Many Voices',
+        essence: 'Harmony without uniformity.',
+        lesson: 'Many voices can still form one song.',
+        body: 'The bridge is not built from a single material. Each piece retains its nature while holding the others. Travelers who cross it hear the bridge hum with the weight of every person who has walked it before.',
+        symbol: 'Interwoven Threads',
+      },
+      creation: {
+        icon: '🔨', name: 'Ninth Star — Creation', region: 'Workshop of First Light',
+        essence: 'Joining the ongoing work of making the world whole.',
+        lesson: 'Creation is participation, not possession.',
+        body: 'The workshop never closes. Tools are already warm when the traveler arrives because someone was working before them. Nothing here belongs to its maker — every finished piece is set on a shelf where anyone may pick it up and continue the work.',
+        symbol: 'Hammer and Seed',
+      },
+    };
+
+    const viewed = new Set(JSON.parse(localStorage.getItem('site_stars_viewed') || '[]'));
+
+    function updateProgress() {
+      const pct = Math.round((viewed.size / 7) * 100);
+      document.getElementById('stars-progress-fill').style.width = pct + '%';
+      document.getElementById('stars-progress-label').textContent = `${viewed.size} / 7`;
+    }
+
+    function showStar(key) {
+      const s = stars[key];
+      if (!s) return;
+      viewed.add(key);
+      localStorage.setItem('site_stars_viewed', JSON.stringify([...viewed]));
+      updateProgress();
+
+      document.getElementById('detail-icon').textContent = s.icon;
+      document.getElementById('detail-region').textContent = s.region;
+      document.getElementById('detail-name').textContent = s.name;
+      document.getElementById('detail-essence').textContent = s.essence;
+      document.getElementById('detail-lesson').textContent = s.lesson;
+      document.getElementById('detail-body').textContent = s.body;
+      document.getElementById('detail-symbol-badge').textContent = '◆ ' + s.symbol;
+
+      const detail = document.getElementById('star-detail');
+      detail.classList.add('visible');
+      detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      document.querySelectorAll('.star-card').forEach(c => {
+        c.style.borderColor = c.dataset.star === key ? 'var(--accent-purple)' : '';
+      });
+    }
+
+    document.querySelectorAll('.star-card').forEach(card => {
+      card.addEventListener('click', () => showStar(card.dataset.star));
+    });
+
+    updateProgress();
+  </script>
+</body>
+</html>

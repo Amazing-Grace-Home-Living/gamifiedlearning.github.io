@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blackwood — Voice of Jesus Ministry</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/blackwood.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="site-logo" href="index.html">✦ Voice of Jesus Ministry</a>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="stars.html">Seven Stars</a>
+      <a href="blackwood.html" class="active">Blackwood</a>
+      <a href="devotionals.html">Devotionals</a>
+      <a href="os-shell.html">Nexus OS</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="page-wrap">
+
+    <div class="hero">
+      <p class="section-label">Third Star · Discernment</p>
+      <h1>Blackwood Region</h1>
+      <p>A region of shadow and outline. Nothing announces itself here. The lantern shows only what you are willing to look at.</p>
+    </div>
+
+    <div class="content-panel">
+
+      <div class="region-map" aria-label="Blackwood region map placeholder">
+        ◈ Blackwood — Enter with a lantern
+      </div>
+
+      <div class="blackwood-hub">
+        <h3>🔦 Blackwood Landmarks</h3>
+        <ul>
+          <li>
+            <span class="entry-icon">📒</span>
+            <div>
+              <strong>The Ledger House</strong>
+              <span>A crumbling structure where every door is labeled with what it actually contains, not what was promised. Discernment begins here.</span>
+            </div>
+          </li>
+          <li>
+            <span class="entry-icon">🌑</span>
+            <div>
+              <strong>The Dim Crossroads</strong>
+              <span>Four paths diverge in total darkness. Only one leads forward. The lantern can only light the path you are already facing.</span>
+            </div>
+          </li>
+          <li>
+            <span class="entry-icon">👁️</span>
+            <div>
+              <strong>The Watching Grove</strong>
+              <span>A stand of ancient trees whose roots are shaped like open eyes. Travelers report that assumptions wither and clarity grows here.</span>
+            </div>
+          </li>
+          <li>
+            <span class="entry-icon">📜</span>
+            <div>
+              <strong>The Archive of Implied Things</strong>
+              <span>Scrolls that record truths never spoken aloud — only inferred. To read them is to learn that much of what matters is never announced.</span>
+            </div>
+          </li>
+          <li>
+            <span class="entry-icon">🕯️</span>
+            <div>
+              <strong>The Keeper's Flame</strong>
+              <span>A single candle at the region's edge that never extinguishes. Those who have walked all of Blackwood leave knowing what the flame represents to them — not what they were told.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <h3 style="color: var(--accent-gold); margin: 1.5rem 0 0.75rem;">Discernment Trial</h3>
+      <p class="text-muted" style="margin-bottom:1rem;">Walk the trial to earn the Third Star. One answer is right — not because it was told to you, but because you can see it.</p>
+
+      <div id="trial-container"></div>
+      <div id="trial-result" style="display:none; margin-top:1rem;"></div>
+
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>Voice of Jesus Ministry · Seven-Star Nexus · <a href="contact.html">Contact</a></p>
+  </footer>
+
+  <script>
+    const trials = [
+      {
+        prompt: 'You arrive at the Dim Crossroads. Four signs point in different directions. Three are labeled with grand promises. One is labeled with a simple direction: "Forward." Which do you follow?',
+        choices: [
+          { text: 'The path promising treasure', correct: false, feedback: 'The promise is not the path. What was offered without conditions?' },
+          { text: 'The path promising answers', correct: false, feedback: 'Answers are not always where they are advertised.' },
+          { text: 'The path labeled "Forward"', correct: true, feedback: '✦ Star earned. The plain path required discernment — not to chase the loudest offer, but to recognize the one that simply told the truth.' },
+          { text: 'The path promising safety', correct: false, feedback: 'Safety is not the same as direction.' },
+        ],
+      },
+      {
+        prompt: 'In the Archive of Implied Things, a scroll says: "The door was always open." You remember a time you did not walk through a door. What does the scroll mean?',
+        choices: [
+          { text: 'It means you made a mistake', correct: false, feedback: 'Discernment is not the same as regret.' },
+          { text: 'It means the opportunity was already there — you simply had not seen it yet', correct: true, feedback: '✦ Star earned. To discern is to see what was already present. The door did not move. Your seeing did.' },
+          { text: 'It means someone should have told you', correct: false, feedback: 'Truth in Blackwood is often implied, not announced.' },
+          { text: 'It means nothing; it is only a metaphor', correct: false, feedback: 'In Blackwood, metaphors are the clearest form of instruction.' },
+        ],
+      },
+      {
+        prompt: 'At the Keeper\'s Flame, you are asked: "What does the candle represent?" You have walked all of Blackwood. What is your answer?',
+        choices: [
+          { text: 'Light that never gives up', correct: false, feedback: 'That is perseverance, not discernment.' },
+          { text: 'The truth you already carried into the darkness', correct: true, feedback: '✦ Star earned. The flame was never external to you. Discernment is recognizing what you already knew and were willing to look at.' },
+          { text: 'A warning to turn back', correct: false, feedback: 'The flame faces forward, not back.' },
+          { text: 'The knowledge of others', correct: false, feedback: 'Knowledge borrowed without examination is not discernment.' },
+        ],
+      },
+    ];
+
+    let current = 0;
+    const starsEarned = new Set(JSON.parse(localStorage.getItem('blackwood_stars') || '[]'));
+
+    function renderTrial() {
+      const container = document.getElementById('trial-container');
+      if (current >= trials.length) {
+        container.innerHTML = `
+          <div class="trial-card">
+            <p class="trial-prompt text-gold">✦ Blackwood Complete</p>
+            <p class="text-muted">You have walked all three trials and earned the Third Star — Discernment. Return to the <a href="stars.html">Seven Stars</a> or <a href="os-shell.html">enter the Nexus OS</a>.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const t = trials[current];
+      container.innerHTML = `
+        <div class="trial-card">
+          <p class="trial-prompt">${t.prompt}</p>
+          <div class="trial-choices">
+            ${t.choices.map((c, i) => `<button class="trial-choice" data-index="${i}">${c.text}</button>`).join('')}
+          </div>
+          <div id="choice-feedback" style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-muted);"></div>
+        </div>
+      `;
+
+      container.querySelectorAll('.trial-choice').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const choice = t.choices[parseInt(btn.dataset.index)];
+          const fb = document.getElementById('choice-feedback');
+          fb.textContent = choice.feedback;
+          if (choice.correct) {
+            starsEarned.add(current);
+            localStorage.setItem('blackwood_stars', JSON.stringify([...starsEarned]));
+            setTimeout(() => { current++; renderTrial(); }, 1600);
+          }
+        });
+      });
+    }
+
+    renderTrial();
+  </script>
+</body>
+</html>

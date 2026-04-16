@@ -1,0 +1,125 @@
+/* Devotional card */
+.devotional-card {
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #0d0418 0%, #1a0b38 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: var(--glow-gold);
+  margin-bottom: 1.5rem;
+}
+
+.devotional-card .devo-date {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-gold);
+  margin-bottom: 0.4rem;
+}
+
+.devotional-card .devo-verse {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--text-main);
+  border-left: 3px solid var(--accent-gold);
+  padding-left: 1rem;
+  margin: 0.75rem 0;
+  line-height: 1.5;
+}
+
+.devotional-card .devo-ref {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.devotional-card .devo-reflection {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.devotional-card .devo-prompt {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-soft);
+  color: var(--accent-gold);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Gallery grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.gallery-item {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  background: linear-gradient(135deg, #120824, #1a0a30);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--glow-purple);
+}
+
+.gallery-item .gallery-thumb {
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(135deg, #1e0a44, #2d1060);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+
+.gallery-item .gallery-caption {
+  padding: 0.75rem;
+}
+
+.gallery-item .gallery-caption strong {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--text-main);
+  margin-bottom: 0.2rem;
+}
+
+.gallery-item .gallery-caption span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* Tabs */
+.tab-bar {
+  display: flex;
+  gap: 0.4rem;
+  border-bottom: 1px solid var(--border-soft);
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  letter-spacing: 0.04em;
+}
+.tab-btn:hover { color: var(--text-main); }
+.tab-btn.active {
+  color: var(--accent-gold);
+  border-bottom-color: var(--accent-gold);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }

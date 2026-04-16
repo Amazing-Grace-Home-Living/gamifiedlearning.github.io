@@ -1,0 +1,99 @@
+<section class="module-grid">
+
+  <div class="card">
+    <h2 class="module-heading">🔨 Ninth Star — Creation</h2>
+    <p class="muted">Region: Workshop of First Light. The tools are already warm. Someone worked here before you. Someone will work here after. Your shift begins now.</p>
+    <div id="creation-star-progress-bar" style="display:flex; align-items:center; gap:0.6rem; margin-top:0.75rem;">
+      <div style="flex:1; height:6px; background:rgba(255,255,255,0.06); border-radius:999px; overflow:hidden;">
+        <div id="creation-fill" style="height:100%; width:0%; background:linear-gradient(90deg,#f97316,#22c55e); border-radius:999px; transition:width 0.4s ease;"></div>
+      </div>
+      <span id="creation-chapter-label" class="badge">Chapter 1 / 3</span>
+    </div>
+  </div>
+
+  <div id="creation-story-panel"></div>
+
+</section>
+
+<script>
+(function() {
+  const chapters = [
+    {
+      title: 'The Warm Tools',
+      narrative: `You enter the Workshop of First Light through a low door that opens into warmth. Every surface is lit by a sourceless amber glow. On the central bench: a hammer, still warm from someone else's grip. A seed pouch, half-empty. A half-finished piece of carved wood, its shape not yet clear. A note pinned beside it reads: "Continue from here. Do not start over — that wastes what was already done."`,
+      choices: [
+        { text: 'Pick up the hammer and continue shaping the carved piece.', next: true, impact: '✦ You honor the work that preceded yours. The shape begins to clarify under your hands.' },
+        { text: 'Set aside the carving and start your own piece from raw material.', next: false, impact: 'The note flickers. The workshop does not forbid new work, but it notices when continuity is abandoned.' },
+        { text: 'Study the half-finished piece carefully before touching anything.', next: true, impact: '✦ Discernment before creation. You understand the work before joining it. The hammer fits your hand when you finally lift it.' },
+      ],
+    },
+    {
+      title: 'The Seed',
+      narrative: `You find a second bench with soil already prepared — turned, watered, ready. The seed pouch contains seven seeds. You have time to plant all of them, but not to tend them all by the time your shift ends. A figure at the other end of the workshop looks up: "Plant what you can tend. Leave the rest for the next shift."`,
+      choices: [
+        { text: 'Plant all seven seeds, trusting the next worker will tend them.', next: false, impact: 'Three seeds receive no water before you leave. The workshop gently notes: intention without capacity is the beginning of abandonment.' },
+        { text: 'Plant three seeds — the number you can genuinely tend before your shift ends.', next: true, impact: '✦ Creation is participation, not possession. Three seeds, well tended, outgrow seven seeds scattered and forgotten.' },
+        { text: 'Plant one seed and tend it with full attention.', next: true, impact: '✦ Depth over breadth. One seed, fully known, is a complete act of creation.' },
+      ],
+    },
+    {
+      title: 'The Shelf',
+      narrative: `Your shift ends. The carved piece is finished — not perfectly, but genuinely. The planted seeds are watered and labeled. You are asked to place your finished work on the shelf along the east wall. The shelf holds hundreds of objects, each one placed by a different hand over a span of time too long to measure. Your piece takes its place among them. The workshop door opens for the next worker.`,
+      choices: [
+        { text: '"I leave this for whoever needs it, not for whoever remembers me."', next: true, impact: '✦ Creation Star — Generosity dimension earned. The work belongs to the shelf now, not to you.' },
+        { text: '"I leave this knowing the workshop will continue without me."', next: true, impact: '✦ Creation Star — Continuity dimension earned. Creation is not a monument to your presence — it is a contribution to the ongoing work.' },
+        { text: '"I leave this, but I hope people know it was mine."', next: false, impact: 'The shelf accepts the piece, but the workshop hum is quieter. Creation as ownership is a different practice than creation as participation.' },
+      ],
+    },
+  ];
+
+  let current = 0;
+  const nexus = window.NexusOS;
+
+  function render() {
+    const panel = document.getElementById('creation-story-panel');
+    if (!panel) return;
+
+    document.getElementById('creation-fill').style.width = Math.round((current / chapters.length) * 100) + '%';
+    document.getElementById('creation-chapter-label').textContent = `Chapter ${Math.min(current + 1, chapters.length)} / ${chapters.length}`;
+
+    if (current >= chapters.length) {
+      panel.innerHTML = `
+        <div class="quiz-card">
+          <div class="status-pill">✦ Creation Star Complete</div>
+          <p class="muted" style="margin-top:0.75rem;">You have completed your shift in the Workshop of First Light. The Ninth Star is aligned. You did not begin the world — but today, you moved it forward.</p>
+        </div>
+      `;
+      nexus?.emit('star-collected', { church: 'Workshop of First Light', star: 'creation' });
+      nexus?.emit('lore-unlocked', { badgeId: 'creation_star_aligned' });
+      return;
+    }
+
+    const ch = chapters[current];
+    panel.innerHTML = `
+      <div class="quiz-card">
+        <div class="badge" style="margin-bottom:0.75rem;">Chapter ${current + 1}: ${ch.title}</div>
+        <p style="color:var(--text, #e5e7eb); line-height:1.6; margin-bottom:1rem;">${ch.narrative}</p>
+        <div class="choices">
+          ${ch.choices.map((c, i) => `<button class="choice-btn" data-ci="${i}">${c.text}</button>`).join('')}
+        </div>
+        <div id="creation-feedback" class="muted" style="margin-top:0.75rem;"></div>
+      </div>
+    `;
+
+    panel.querySelectorAll('[data-ci]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const choice = ch.choices[parseInt(btn.dataset.ci)];
+        document.getElementById('creation-feedback').textContent = choice.impact;
+        btn.style.borderColor = choice.next ? '#22c55e' : '#ef4444';
+        panel.querySelectorAll('[data-ci]').forEach(b => b.disabled = true);
+        if (choice.next) {
+          setTimeout(() => { current++; render(); }, 1500);
+        }
+      });
+    });
+  }
+
+  render();
+})();
+</script>

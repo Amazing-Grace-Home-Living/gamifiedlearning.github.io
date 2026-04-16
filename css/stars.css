@@ -1,0 +1,91 @@
+.stars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.star-card {
+  padding: 1.2rem 1rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #120824, #24124a);
+  border: 1px solid var(--border-soft);
+  text-align: center;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.star-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--glow-purple);
+  border-color: var(--accent-purple);
+}
+
+.star-card .star-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.star-card .star-name {
+  display: block;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 0.25rem;
+}
+
+.star-card .star-region {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Star detail panel */
+.star-detail {
+  display: none;
+  padding: 1.5rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #0d0320, #1a0934);
+  border: 1px solid rgba(123, 63, 228, 0.3);
+  box-shadow: var(--glow-purple);
+  margin-top: 1.5rem;
+}
+.star-detail.visible { display: block; }
+
+.star-detail .detail-symbol {
+  font-size: 1.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.star-detail blockquote {
+  border-left: 3px solid var(--accent-gold);
+  margin: 0.75rem 0;
+  padding-left: 1rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.star-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.star-progress-bar {
+  flex: 1;
+  height: 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.star-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-purple), var(--accent-gold));
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}

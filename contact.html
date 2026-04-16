@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Voice of Jesus Ministry</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="site-logo" href="index.html">✦ Voice of Jesus Ministry</a>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="stars.html">Seven Stars</a>
+      <a href="blackwood.html">Blackwood</a>
+      <a href="devotionals.html">Devotionals</a>
+      <a href="os-shell.html">Nexus OS</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+  </header>
+
+  <div class="page-wrap">
+
+    <div class="hero">
+      <p class="section-label">Reach Out</p>
+      <h1>Contact</h1>
+      <p>Whether you are walking a star for the first time or returning to the workshop — we want to hear from you.</p>
+    </div>
+
+    <div class="content-panel">
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+
+        <div style="padding: 1.25rem; border-radius: 14px; background: linear-gradient(135deg, #120824, #24124a); border: 1px solid var(--border-soft);">
+          <p class="section-label">Ministry</p>
+          <h3 style="color: var(--accent-gold);">Voice of Jesus Ministry</h3>
+          <p>Serving the Tampa Bay area and beyond with Nexus-themed discipleship programs, community outreach, and summer intensives.</p>
+          <a href="https://voiceofjesusministry.org" class="btn" target="_blank" rel="noopener noreferrer">Visit Site ↗</a>
+        </div>
+
+        <div style="padding: 1.25rem; border-radius: 14px; background: linear-gradient(135deg, #120824, #24124a); border: 1px solid var(--border-soft);">
+          <p class="section-label">Nexus OS</p>
+          <h3 style="color: var(--accent-gold);">Gamified Learning</h3>
+          <p>The full Nexus Arcade OS — Seven Stars quiz, lore codex, match maker, and overworld. Play the platform behind the ministry.</p>
+          <a href="os-shell.html" class="btn">Open Nexus OS ↗</a>
+        </div>
+
+        <div style="padding: 1.25rem; border-radius: 14px; background: linear-gradient(135deg, #120824, #24124a); border: 1px solid var(--border-soft);">
+          <p class="section-label">Daily Practice</p>
+          <h3 style="color: var(--accent-gold);">Devotional Generator</h3>
+          <p>Receive a daily verse, reflection, and journal prompt drawn from the Seven Stars cosmology.</p>
+          <a href="devotionals.html" class="btn">Open Devotionals ↗</a>
+        </div>
+
+      </div>
+
+      <hr>
+
+      <form id="contact-form" style="display: grid; gap: 1rem; max-width: 540px; margin: 0 auto;">
+        <p class="section-label">Send a Message</p>
+
+        <div>
+          <label style="display:block; margin-bottom:0.35rem; font-size:0.85rem; color:var(--text-muted);">Name</label>
+          <input type="text" id="field-name" placeholder="Your name"
+            style="width:100%; padding:0.65rem 1rem; border-radius:10px; border:1px solid var(--border-soft); background:rgba(255,255,255,0.04); color:var(--text-main); font-size:0.9rem; outline:none;">
+        </div>
+
+        <div>
+          <label style="display:block; margin-bottom:0.35rem; font-size:0.85rem; color:var(--text-muted);">Email</label>
+          <input type="email" id="field-email" placeholder="you@example.com"
+            style="width:100%; padding:0.65rem 1rem; border-radius:10px; border:1px solid var(--border-soft); background:rgba(255,255,255,0.04); color:var(--text-main); font-size:0.9rem; outline:none;">
+        </div>
+
+        <div>
+          <label style="display:block; margin-bottom:0.35rem; font-size:0.85rem; color:var(--text-muted);">Message</label>
+          <textarea id="field-message" rows="5" placeholder="Your message..."
+            style="width:100%; padding:0.65rem 1rem; border-radius:10px; border:1px solid var(--border-soft); background:rgba(255,255,255,0.04); color:var(--text-main); font-size:0.9rem; outline:none; resize:vertical;"></textarea>
+        </div>
+
+        <button type="submit" class="btn gold">Send Message</button>
+        <div id="form-status" style="font-size:0.85rem; color:var(--text-muted); text-align:center; display:none;"></div>
+      </form>
+
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>Voice of Jesus Ministry · Seven-Star Nexus · <a href="contact.html">Contact</a></p>
+  </footer>
+
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('field-name').value.trim();
+      const email = document.getElementById('field-email').value.trim();
+      const message = document.getElementById('field-message').value.trim();
+      const status = document.getElementById('form-status');
+
+      if (!name || !email || !message) {
+        status.style.display = 'block';
+        status.style.color = '#fca5a5';
+        status.textContent = 'Please fill in all fields before sending.';
+        return;
+      }
+
+      status.style.display = 'block';
+      status.style.color = 'var(--accent-gold)';
+      status.textContent = '✦ Message received. We will be in touch soon.';
+      this.reset();
+    });
+  </script>
+</body>
+</html>

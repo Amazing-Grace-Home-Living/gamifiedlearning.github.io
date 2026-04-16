@@ -1,0 +1,99 @@
+<section class="module-grid">
+
+  <div class="card">
+    <h2 class="module-heading">🧵 Eighth Star — Unity</h2>
+    <p class="muted">Region: Bridge of Many Voices. The bridge is built from what it holds — stone, timber, cord. Walk it without erasing what you carried in.</p>
+    <div id="unity-star-progress-bar" style="display:flex; align-items:center; gap:0.6rem; margin-top:0.75rem;">
+      <div style="flex:1; height:6px; background:rgba(255,255,255,0.06); border-radius:999px; overflow:hidden;">
+        <div id="unity-fill" style="height:100%; width:0%; background:linear-gradient(90deg,#6366f1,#22d3ee); border-radius:999px; transition:width 0.4s ease;"></div>
+      </div>
+      <span id="unity-chapter-label" class="badge">Chapter 1 / 3</span>
+    </div>
+  </div>
+
+  <div id="unity-story-panel"></div>
+
+</section>
+
+<script>
+(function() {
+  const chapters = [
+    {
+      title: 'The Gathering at the Bridge',
+      narrative: `Three travelers arrive at the Bridge of Many Voices at the same moment — one from the mountains, one from the valley, one from the plains. Each carries a tool: a stone chisel, a length of timber, a coil of cord. The bridge is unfinished. A sign reads: "No single material can complete it." The travelers look at each other. None of them built a bridge before.`,
+      choices: [
+        { text: 'Suggest each traveler contributes their material to a different section.', next: true, impact: '✦ The sections hold together because each one was built with the material that knew how.' },
+        { text: 'Ask the valley traveler to lead since timber is the most versatile.', next: false, impact: 'The mountain traveler\'s stone goes unused. The bridge holds in the middle but not at the anchor points.' },
+        { text: 'Work together on each section, weaving cord through stone and timber.', next: true, impact: '✦ Harmony without uniformity. The bridge is richer for the interwoven method.' },
+      ],
+    },
+    {
+      title: 'The Dissonant Voice',
+      narrative: `As the bridge nears completion, a fourth traveler arrives. They carry no material — only a voice, and an opinion about how the work should have been done differently. The other three pause. The voice is not wrong. Some suggestions are genuinely useful. But the bridge is already mostly built.`,
+      choices: [
+        { text: 'Thank the fourth traveler and incorporate the useful suggestions into the final span.', next: true, impact: '✦ A voice that arrives late is still a voice. The final span is the strongest.' },
+        { text: 'Ask the fourth traveler to step aside — the work is almost done.', next: false, impact: 'The fourth traveler\'s insight is lost. The bridge holds but hums with what was left out.' },
+        { text: 'Stop all work and start the section over using the fourth traveler\'s suggestions.', next: false, impact: 'The delay costs more than the improvement gains. Unity requires timing as well as inclusion.' },
+      ],
+    },
+    {
+      title: 'The Crossing',
+      narrative: `The bridge is complete. The four travelers stand at one end. As they cross together, the bridge begins to hum — a resonance built from every voice, footstep, and material woven into it. On the far side, they find an inscription: "You did not build this together by becoming the same. You built it by remaining yourselves while bearing each other's weight." Each traveler places their remaining tool at the base as an offering.`,
+      choices: [
+        { text: '"The bridge remembers every voice that helped build it."', next: true, impact: '✦ Unity Star — Memory dimension earned. What was built together is remembered together.' },
+        { text: '"The song of the bridge is all four voices at once."', next: true, impact: '✦ Unity Star — Harmony dimension earned. Many voices, one resonance.' },
+        { text: '"My voice would have been enough to build it."', next: false, impact: 'The bridge hum goes quiet on your side. Unity does not exclude — but it notices when someone steps out of the chord.' },
+      ],
+    },
+  ];
+
+  let current = 0;
+  const nexus = window.NexusOS;
+
+  function render() {
+    const panel = document.getElementById('unity-story-panel');
+    if (!panel) return;
+
+    document.getElementById('unity-fill').style.width = Math.round((current / chapters.length) * 100) + '%';
+    document.getElementById('unity-chapter-label').textContent = `Chapter ${Math.min(current + 1, chapters.length)} / ${chapters.length}`;
+
+    if (current >= chapters.length) {
+      panel.innerHTML = `
+        <div class="quiz-card">
+          <div class="status-pill">✦ Unity Star Complete</div>
+          <p class="muted" style="margin-top:0.75rem;">You have crossed the Bridge of Many Voices. The Eighth Star is aligned. Many voices can still form one song — and you are part of the chord.</p>
+        </div>
+      `;
+      nexus?.emit('star-collected', { church: 'Bridge of Many Voices', star: 'unity' });
+      nexus?.emit('lore-unlocked', { badgeId: 'unity_star_aligned' });
+      return;
+    }
+
+    const ch = chapters[current];
+    panel.innerHTML = `
+      <div class="quiz-card">
+        <div class="badge" style="margin-bottom:0.75rem;">Chapter ${current + 1}: ${ch.title}</div>
+        <p style="color:var(--text, #e5e7eb); line-height:1.6; margin-bottom:1rem;">${ch.narrative}</p>
+        <div class="choices">
+          ${ch.choices.map((c, i) => `<button class="choice-btn" data-ci="${i}">${c.text}</button>`).join('')}
+        </div>
+        <div id="unity-feedback" class="muted" style="margin-top:0.75rem;"></div>
+      </div>
+    `;
+
+    panel.querySelectorAll('[data-ci]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const choice = ch.choices[parseInt(btn.dataset.ci)];
+        document.getElementById('unity-feedback').textContent = choice.impact;
+        btn.style.borderColor = choice.next ? '#22c55e' : '#ef4444';
+        panel.querySelectorAll('[data-ci]').forEach(b => b.disabled = true);
+        if (choice.next) {
+          setTimeout(() => { current++; render(); }, 1500);
+        }
+      });
+    });
+  }
+
+  render();
+})();
+</script>

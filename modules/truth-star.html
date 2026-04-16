@@ -1,0 +1,99 @@
+<section class="module-grid">
+
+  <div class="card">
+    <h2 class="module-heading">⚖️ Seventh Star — Truth</h2>
+    <p class="muted">Region: Chamber of Unbroken Lines. Walk the silver line and discover where your walk drifts. Alignment is the reward — not judgment.</p>
+    <div id="truth-star-progress-bar" style="display:flex; align-items:center; gap:0.6rem; margin-top:0.75rem;">
+      <div style="flex:1; height:6px; background:rgba(255,255,255,0.06); border-radius:999px; overflow:hidden;">
+        <div id="truth-fill" style="height:100%; width:0%; background:linear-gradient(90deg,#a855f7,#d4af37); border-radius:999px; transition:width 0.4s ease;"></div>
+      </div>
+      <span id="truth-chapter-label" class="badge">Chapter 1 / 3</span>
+    </div>
+  </div>
+
+  <div id="truth-story-panel"></div>
+
+</section>
+
+<script>
+(function() {
+  const chapters = [
+    {
+      title: 'Arrival at the Chamber',
+      narrative: `You descend a staircase of polished stone into a room with no ceiling. A single silver line runs from the threshold where you stand to the far wall — straight, unbroken, impossibly precise. A voice, neither loud nor soft, says: "Walk it." The line is narrower than you expected.`,
+      choices: [
+        { text: 'Step onto the line and walk deliberately, one foot in front of the other.', next: true, impact: 'You begin. The line does not widen, but the chamber feels less narrow.' },
+        { text: 'Study the line before stepping, trying to identify its source.', next: true, impact: 'Wisdom precedes movement. You note where the line begins and where it ends. Then you step.' },
+        { text: 'Ask whose line it is before accepting the invitation.', next: true, impact: 'The chamber holds the question without answering it. Eventually you realize the line does not require a credential — only a first step.' },
+      ],
+    },
+    {
+      title: 'The Drift',
+      narrative: `Halfway across, you look down and notice your feet have drifted slightly left of the line. You did not feel it happen. The line has not moved. The voice returns: "Now you see it." It does not say you failed.`,
+      choices: [
+        { text: 'Correct course immediately, returning your feet to the line.', next: true, impact: '✦ Correction without shame. This is what the Chamber teaches first.' },
+        { text: 'Keep walking, accepting that the drift is recorded.', next: false, impact: 'The line does not argue. But you are no longer walking it.' },
+        { text: 'Stop, acknowledge the drift aloud, and then resume.', next: true, impact: '✦ Truth requires acknowledgment. You name the drift and resume aligned.' },
+      ],
+    },
+    {
+      title: 'The Far Wall',
+      narrative: `You reach the far wall. The silver line ends here. Cut into the stone is a single sentence: "Truth is not a weapon. It is a foundation." Below it, a shallow basin holds enough water to see your reflection. The voice speaks for the last time: "You may take the line with you. Not as something you own — as something you carry."`,
+      choices: [
+        { text: '"I carry it for others to walk on."', next: true, impact: '✦ Truth Star — Unity dimension earned. The foundation is shared.' },
+        { text: '"I carry it so I do not drift again."', next: true, impact: '✦ Truth Star — Discernment dimension earned. Self-alignment is the beginning of all other alignment.' },
+        { text: '"I carry it because I was told to."', next: false, impact: 'The basin goes dark. A foundation carried without understanding is weight, not truth.' },
+      ],
+    },
+  ];
+
+  let current = 0;
+  const nexus = window.NexusOS;
+
+  function render() {
+    const panel = document.getElementById('truth-story-panel');
+    if (!panel) return;
+
+    document.getElementById('truth-fill').style.width = Math.round((current / chapters.length) * 100) + '%';
+    document.getElementById('truth-chapter-label').textContent = `Chapter ${Math.min(current + 1, chapters.length)} / ${chapters.length}`;
+
+    if (current >= chapters.length) {
+      panel.innerHTML = `
+        <div class="quiz-card">
+          <div class="status-pill">✦ Truth Star Complete</div>
+          <p class="muted" style="margin-top:0.75rem;">You have walked the Chamber of Unbroken Lines. Truth is now a foundation you carry, not a weapon you wield. The Seventh Star is aligned.</p>
+        </div>
+      `;
+      nexus?.emit('star-collected', { church: 'Chamber of Unbroken Lines', star: 'truth' });
+      nexus?.emit('lore-unlocked', { badgeId: 'truth_star_aligned' });
+      return;
+    }
+
+    const ch = chapters[current];
+    panel.innerHTML = `
+      <div class="quiz-card">
+        <div class="badge" style="margin-bottom:0.75rem;">Chapter ${current + 1}: ${ch.title}</div>
+        <p style="color:var(--text, #e5e7eb); line-height:1.6; margin-bottom:1rem;">${ch.narrative}</p>
+        <div class="choices">
+          ${ch.choices.map((c, i) => `<button class="choice-btn" data-ci="${i}">${c.text}</button>`).join('')}
+        </div>
+        <div id="truth-feedback" class="muted" style="margin-top:0.75rem;"></div>
+      </div>
+    `;
+
+    panel.querySelectorAll('[data-ci]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const choice = ch.choices[parseInt(btn.dataset.ci)];
+        document.getElementById('truth-feedback').textContent = choice.impact;
+        btn.style.borderColor = choice.next ? '#22c55e' : '#ef4444';
+        panel.querySelectorAll('[data-ci]').forEach(b => b.disabled = true);
+        if (choice.next) {
+          setTimeout(() => { current++; render(); }, 1500);
+        }
+      });
+    });
+  }
+
+  render();
+})();
+</script>

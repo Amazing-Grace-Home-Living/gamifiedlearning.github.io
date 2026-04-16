@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devotionals — Voice of Jesus Ministry</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="site-logo" href="index.html">✦ Voice of Jesus Ministry</a>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="stars.html">Seven Stars</a>
+      <a href="blackwood.html">Blackwood</a>
+      <a href="devotionals.html" class="active">Devotionals</a>
+      <a href="os-shell.html">Nexus OS</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="page-wrap">
+
+    <div class="hero">
+      <p class="section-label">Daily Practice</p>
+      <h1>Nexus Devotional Generator</h1>
+      <p>Each day surfaces a verse, a reflection drawn from the Seven Stars, and a question for the journey. Summer camp and mission galleries below.</p>
+      <button class="btn gold" id="generate-btn">✦ Generate Today's Devotional</button>
+    </div>
+
+    <div class="content-panel" style="margin-bottom:1.5rem;">
+      <div id="devotional-output">
+        <p class="text-muted" style="text-align:center; padding:1rem 0;">Press the button above to receive today's word.</p>
+      </div>
+    </div>
+
+    <div class="content-panel">
+
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="summer">Summer Camp Gallery</button>
+        <button class="tab-btn" data-tab="missions">Mission Gallery</button>
+      </div>
+
+      <!-- Summer Camp Gallery -->
+      <div class="tab-panel active" id="tab-summer">
+        <p class="section-label">Summer Camp 2024–2025</p>
+        <p class="text-muted">Moments from the Nexus summer intensives — seven days of lore, virtue, and fellowship.</p>
+        <div class="gallery-grid">
+
+          <div class="gallery-item">
+            <div class="gallery-thumb">🏕️</div>
+            <div class="gallery-caption">
+              <strong>Opening Night — First Light</strong>
+              <span>Day 1 · Workshop of First Light theme · Creation star kickoff</span>
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-thumb">🔦</div>
+            <div class="gallery-caption">
+              <strong>Blackwood Trail Walk</strong>
+              <span>Day 2 · Night hike through the discernment trail · Lanterns provided</span>
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-thumb">🌊</div>
+            <div class="gallery-caption">
+              <strong>Still Waters Morning</strong>
+              <span>Day 3 · Wisdom star devotional · Journaling by the lake</span>
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-thumb">🎵</div>
+            <div class="gallery-caption">
+              <strong>Bridge of Many Voices</strong>
+              <span>Day 4 · Unity star · Campfire worship with all voices welcome</span>
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-thumb">⛓️</div>
+            <div class="gallery-caption">
+              <strong>Mercy Circle</strong>
+              <span>Day 5 · Hall of Unfinished Sentences · Forgiveness practice</span>
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-thumb">📏</div>
+            <div class="gallery-caption">
+              <strong>Truth Walks</strong>
+              <span>Day 6 · Chamber of Unbroken Lines · One-on-one mentorship walks</span>
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-thumb">✦</div>
+            <div class="gallery-caption">
+              <strong>Constellation Night</strong>
+              <span>Day 7 · Closing ceremony · All seven stars named and honored</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Mission Gallery -->
+      <div class="tab-panel" id="tab-missions">
+        <p class="section-label">Mission Gallery</p>
+        <p class="text-muted">Service trips and outreach moments where the Seven Stars were lived, not only studied.</p>
+        <div class="gallery-grid">
+
+          <div class="gallery-item">
+            <div class="gallery-thumb">🏠</div>
+            <div class="gallery-caption">
+              <strong>Tampa Housing Outreach</strong>
+              <span>Spring 2024 · Mercy star in action · 14 families served</span>
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-thumb">🌱</div>
+            <div class="gallery-caption">
+              <strong>Largo Community Garden</strong>
+              <span>Summer 2024 · Creation star · Planted and tended with local youth</span>
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-thumb">📖</div>
+            <div class="gallery-caption">
+              <strong>Literacy Initiative</strong>
+              <span>Fall 2024 · Wisdom star · Adult reading circles, 3 locations</span>
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-thumb">🤝</div>
+            <div class="gallery-caption">
+              <strong>Bridge Partnership Sunday</strong>
+              <span>Winter 2024 · Unity star · Five congregations, one service</span>
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-thumb">🕯️</div>
+            <div class="gallery-caption">
+              <strong>Grief Support Evenings</strong>
+              <span>Ongoing · Mercy + Truth stars · Safe space for honest conversation</span>
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-thumb">⚒️</div>
+            <div class="gallery-caption">
+              <strong>Rebuild Project</strong>
+              <span>Spring 2025 · Creation star · Volunteer builds in underserved neighborhoods</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>Voice of Jesus Ministry · Seven-Star Nexus · <a href="contact.html">Contact</a></p>
+  </footer>
+
+  <script>
+    const devotionals = [
+      {
+        star: 'Truth · Seventh Star',
+        verse: '"Then you will know the truth, and the truth will set you free."',
+        ref: 'John 8:32',
+        reflection: 'The Chamber of Unbroken Lines holds no ceiling — only a silver line that runs from entrance to wall without bending. Walking it reveals where we drift, not to shame us, but to orient us. Truth is not confrontation; it is alignment.',
+        prompt: 'Where in your life does your action not yet match your belief? Name one small correction today.',
+      },
+      {
+        star: 'Unity · Eighth Star',
+        verse: '"How good and pleasant it is when God\'s people live together in unity!"',
+        ref: 'Psalm 133:1',
+        reflection: 'The Bridge of Many Voices is built from materials that remember where they came from — stone, timber, cord. Unity does not erase origin. It honors each part while asking it to bear weight. The bridge hums with every person who has crossed it.',
+        prompt: 'Who in your circle carries a different kind of weight than you do? How can you honor their thread today?',
+      },
+      {
+        star: 'Creation · Ninth Star',
+        verse: '"For we are God\'s handiwork, created in Christ Jesus to do good works."',
+        ref: 'Ephesians 2:10',
+        reflection: 'The Workshop of First Light is never empty. Someone was working before you arrived, and someone will continue after you leave. Your contribution is not the first, and it is not the last. That is the good news — you are not the whole project, only today\'s shift.',
+        prompt: 'What piece of work — however small — can you pick up and move forward today?',
+      },
+      {
+        star: 'Mercy · Sixth Star',
+        verse: '"Blessed are the merciful, for they will be shown mercy."',
+        ref: 'Matthew 5:7',
+        reflection: 'The Hall of Unfinished Sentences is full of what was never resolved. Mercy does not finish those sentences for someone else — it mends the break, visibly, with something more valuable than what was lost. The gold-filled crack is not a flaw; it is the evidence of repair.',
+        prompt: 'Is there an unfinished sentence between you and someone else? What one word of repair could you offer?',
+      },
+      {
+        star: 'Courage · Fifth Star',
+        verse: '"Have I not commanded you? Be strong and courageous."',
+        ref: 'Joshua 1:9',
+        reflection: 'The Valley of Echoing Steps returns every footfall as sound. The timid traveler hears hesitation amplified and turns back. The courageous traveler learns that the echo is not a warning — it is evidence that you moved. The next step is always quieter than the last echo.',
+        prompt: 'What step have you been postponing because you can still hear the last echo? Take it today, even if small.',
+      },
+      {
+        star: 'Wisdom · Fourth Star',
+        verse: '"If any of you lacks wisdom, you should ask God, who gives generously to all."',
+        ref: 'James 1:5',
+        reflection: 'The Library of Still Waters has no shelves. Knowledge is in the pool — it shows you what is already present. Wisdom is not the accumulation of facts. It is knowing when to speak, when to wait, and when the open door was never meant for you.',
+        prompt: 'What decision have you been rushing? Sit with it as still water today. What does the reflection show?',
+      },
+      {
+        star: 'Discernment · Third Star',
+        verse: '"Do not conform to the pattern of this world, but be transformed by the renewing of your mind."',
+        ref: 'Romans 12:2',
+        reflection: 'In Blackwood, three signs promised grand things, and one simply said "Forward." Discernment is the capacity to recognize the plain instruction inside the noise of elaborate offers. The lantern shows only what you are willing to look at.',
+        prompt: 'What noise around you is making it hard to see the plain path? Name it — and look at the path labeled Forward.',
+      },
+    ];
+
+    let lastIndex = -1;
+
+    function generateDevotional() {
+      let index;
+      do { index = Math.floor(Math.random() * devotionals.length); } while (index === lastIndex && devotionals.length > 1);
+      lastIndex = index;
+      const d = devotionals[index];
+      const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+      document.getElementById('devotional-output').innerHTML = `
+        <div class="devotional-card">
+          <div class="devo-date">${today} · ${d.star}</div>
+          <div class="devo-verse">${d.verse}</div>
+          <div class="devo-ref">— ${d.ref}</div>
+          <div class="devo-reflection">${d.reflection}</div>
+          <div class="devo-prompt">✦ Journal Prompt: ${d.prompt}</div>
+        </div>
+      `;
+    }
+
+    document.getElementById('generate-btn').addEventListener('click', generateDevotional);
+
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Auto-generate on load
+    generateDevotional();
+  </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+.blackwood-hub {
+  padding: 1.5rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #120814, #2a1028);
+  border: 1px solid var(--border-soft);
+  margin-bottom: 1.25rem;
+}
+
+.blackwood-hub h3 {
+  color: var(--accent-gold);
+  margin-bottom: 0.75rem;
+}
+
+.blackwood-hub ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.blackwood-hub li {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--text-muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.blackwood-hub li:last-child { border-bottom: none; }
+
+.blackwood-hub li .entry-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.blackwood-hub li strong {
+  display: block;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  margin-bottom: 0.1rem;
+}
+
+.blackwood-hub li span {
+  font-size: 0.82rem;
+}
+
+/* Region map placeholder */
+.region-map {
+  width: 100%;
+  min-height: 180px;
+  background: radial-gradient(ellipse at 40% 55%, #2a1028 0%, #0d0320 60%, #05030b 100%);
+  border-radius: 14px;
+  border: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  box-shadow: inset 0 0 40px rgba(123, 63, 228, 0.08);
+}
+
+/* Discernment trial */
+.trial-card {
+  padding: 1.25rem;
+  border-radius: 12px;
+  background: rgba(18, 8, 20, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  margin-bottom: 1rem;
+}
+
+.trial-card .trial-prompt {
+  color: var(--text-main);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.trial-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.trial-choice {
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-soft);
+  color: var(--text-muted);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+  font-size: 0.88rem;
+}
+
+.trial-choice:hover {
+  border-color: var(--accent-gold);
+  color: var(--text-main);
+  background: rgba(212, 175, 55, 0.07);
+}
