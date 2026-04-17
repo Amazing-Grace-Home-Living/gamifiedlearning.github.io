@@ -84,6 +84,7 @@ let histOverlayLevel = 0;        // mirrors Match Maker level (max reached)
 let hasCollection    = false;
 let sevenSeatsActive = false;    // Parallax Mode for qualifying players
 let driftInterval    = null;
+let driftTickCount   = 0;        // counter used to trigger concordance failures deterministically
 let namingTargetEntry = null;
 
 const STORAGE_KEY = 'cl_state';
@@ -346,6 +347,14 @@ function renderEntries() {
     titleEl.className = 'cl-entry-title';
     titleEl.textContent = entry.title;
 
+    // Body text
+    const textEl = document.createElement('div');
+    textEl.className = 'cl-entry-text';
+    textEl.textContent = entry.text;
+
+    card.appendChild(starEl);
+    card.appendChild(titleEl);
+
     // Marginal titles (player-invented names — shown to all)
     const titles = marginalTitles[entry.id];
     if (titles && titles.length > 0) {
@@ -356,10 +365,7 @@ function renderEntries() {
       card.appendChild(marginalEl);
     }
 
-    // Body text
-    const textEl = document.createElement('div');
-    textEl.className = 'cl-entry-text';
-    textEl.textContent = entry.text;
+    card.appendChild(textEl);
 
     // Parallax ghost text (Seven Seats only)
     if (sevenSeatsActive && lensActive && GHOST_TEXT[entry.id]) {
@@ -401,10 +407,6 @@ function renderEntries() {
 
       card.appendChild(controls);
     }
-
-    card.appendChild(starEl);
-    card.appendChild(titleEl);
-    card.appendChild(textEl);
 
     // Click records a read
     card.addEventListener('click', () => {
@@ -500,13 +502,16 @@ function wireEvents() {
 
 function startDrift() {
   if (driftInterval) clearInterval(driftInterval);
+  driftTickCount = 0;
   driftInterval = setInterval(() => {
     // Pressure drifts upward only when there is active contestation
     if (Object.keys(contestedEntries).length > 0 && schismPressure < 1) {
       schismPressure = Math.min(1, schismPressure + 0.003);
+      driftTickCount++;
       save();
       renderLens();
-      if (lensActive && schismPressure > 0.5 && Math.random() < 0.05) {
+      // Trigger concordance failure every 20th tick once pressure exceeds 0.5
+      if (lensActive && schismPressure > 0.5 && driftTickCount % 20 === 0) {
         triggerConcordanceFailure();
       }
     }
