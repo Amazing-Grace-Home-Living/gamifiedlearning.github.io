@@ -1,4 +1,4 @@
-name: CI Quality Gate
+name: CI/CD Pipeline
 
 on:
   push:
@@ -6,25 +6,53 @@ on:
   pull_request:
     branches: [ main ]
 
-jobs:
-  web-integrity-check:
-    runs-on: ubuntu-latest
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  # 1. THE CI STAGE: Validate code integrity
+  build-and-test:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 1. Lint HTML syntax to ensure tags are closed and properly formed
       - name: HTML Hint (Syntax Validation)
         uses: htmlhint/action-htmlhint@v2
         with:
           file_pattern: '**/*.html'
 
-      # 2. Check for broken relative/absolute links and missing images
       - name: Lychee Link & Asset Checker
         uses: lychee-action/lychee-action@v2
         with:
-          # Checks all HTML files; ignores external mailto links
           args: --verbose --no-progress '**/*.html'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Upload the validated static files for the deployment stage
+      - name: Upload Pages Artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+  # 2. THE CD STAGE: Deploy automatically if CI passes
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build-and-test
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
