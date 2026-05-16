@@ -1,0 +1,30 @@
+name: CI Quality Gate
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  web-integrity-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 1. Lint HTML syntax to ensure tags are closed and properly formed
+      - name: HTML Hint (Syntax Validation)
+        uses: htmlhint/action-htmlhint@v2
+        with:
+          file_pattern: '**/*.html'
+
+      # 2. Check for broken relative/absolute links and missing images
+      - name: Lychee Link & Asset Checker
+        uses: lychee-action/lychee-action@v2
+        with:
+          # Checks all HTML files; ignores external mailto links
+          args: --verbose --no-progress '**/*.html'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
